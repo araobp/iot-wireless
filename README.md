@@ -7,7 +7,7 @@
 
 ```
   PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .
-[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[Gateway]<---[Comm. module]<-- wireless --[IoT node or edge AI]
+[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[Gateway]<---[Comm. module]<--wireless--[IoT node or edge AI]
         ^                                               |
         |                                               V
         +-------------[Node.js-based web server]<---[Database]
