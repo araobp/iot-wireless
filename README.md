@@ -2,6 +2,22 @@
 
 ## Goal
 
+- I will develop a gateway node that bridges between smart phones and IoT/EdgeAI.
+- The system must be very easy to install or must support ad-hoc deployment.
+
+```
+  PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .
+[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[Gateway]<---[Comm. module]<-- wireless --[IoT node or edge AI]
+        ^                                               |
+        |                                               V
+        +-------------[Node.js-based web server]<---[Database]
+                        . . . . . . RasPi . . . . . . . . . . . .                                    
+```
+
+### Hardware of the gateway node
+
+Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU.
+
 ### Wireless networking
 
 In this projects, the following wireless networking technologies are studied:
@@ -26,7 +42,7 @@ MQTT is the most popular. I will also study other messaging technologies such as
 
 In this project, [a single page application (SPA)](./spa) is used for showing an inference result from an edge AI simulator.
 
-## Wireless 
+## Wireless networking for IoT and edge AI
 
 ### Bluetooth Low Energy
 
