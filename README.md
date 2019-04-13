@@ -6,7 +6,7 @@
 - The system must be very easy to install or must support ad-hoc deployment.
 
 ```
-  PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .
+  PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .                             STM32 or PIC16F1
 [Vue.js-based SPA]<-----[Messaging such as MQTT]<---[Gateway]<---[Comm. module]<--wireless--[IoT node or edge AI]
         ^                                               |
         |                                               V
