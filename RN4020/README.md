@@ -54,7 +54,7 @@ I use Android app [BLE Scanner](https://play.google.com/store/apps/details?id=co
 
 ### On Web Bluetooth (HTML5)
 
-I run the python script on my PC, and I also run ["Web Bluetooth / Notification" sample](https://googlechrome.github.io/samples/web-bluetooth/notifications.htm) on Chrome browser on my PC. It works!
+I run the python script on my PC, and I also run ["Web Bluetooth / Notification" sample](https://googlechrome.github.io/samples/web-bluetooth/notifications.html) on Chrome browser on my PC. It works!
 
 ```
 Service UUID: 11223344-5566-7788-9900-aabbccddeeff
