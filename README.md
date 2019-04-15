@@ -36,7 +36,7 @@ I use wireless communication modules supporting operations on UART for prototypi
 
 I used to use Redis, Cassandra and ZooKeeper in my past projects.
 
-I chose Redis for IoT/AI edge because of its small footprint.
+In this project, I use Redis because of its small footprint. I use Redis's ZADD command (sorted list) for storing time-series data.
 
 ### Messaging
 
