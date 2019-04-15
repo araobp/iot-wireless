@@ -65,14 +65,17 @@ if __name__ == '__main__':
         for (adTypeCode, description, valueText) in device.getScanData():
             if valueText == args.device_name:
                 #print(device.addr)
-                #print(device.addrType)
+                print(device.addrType)
                 #print(device.rssi)
                 print(adTypeCode, description, valueText)
                 mac_address = device.addr
 
         if mac_address: # If found
             peripheral = btle.Peripheral()
-            peripheral.connect(mac_address) 
+            if device.addrType == 'random':
+                peripheral.connect(mac_address, btle.ADDR_TYPE_RANDOM) 
+            else:
+                peripheral.connect(mac_address) 
             peripheral.withDelegate(EdgeAiDelegate(args.device_name,
                                                 client, TOPIC))
 
