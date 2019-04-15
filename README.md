@@ -1,5 +1,9 @@
 # Wireless edge for IoT and AI
 
+## Motivation
+
+I saw Bluetooth router products developed by [Cassia Networks](https://www.cassianetworks.com/) at a trade show held in Tokyo in April 2019. BLE is not only for 1:1 but also 1:N, that sounds good for IoT networking.
+
 ## Goal
 
 - I will develop a gateway node that bridges between smart phones and IoT/EdgeAI.
