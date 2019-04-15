@@ -93,6 +93,10 @@ I run [another edge AI simulator](./stm32) on NUCLEO-F401RE, and I also run [thi
 Chrome browser                     RasPi                RasPi         RasPi                  Shield      NUCLEO-F401RE    
 ```
 
+## BLE peripheral simulator app on Android
+
+I find [this BLE simulator](https://play.google.com/store/apps/details?id=io.github.webbluetoothcg.bletestperipheral&hl=en) is quite useful.
+
 ## References
 
 - [RN4020 user's guide](http://ww1.microchip.com/downloads/en/devicedoc/70005191b.pdf)
