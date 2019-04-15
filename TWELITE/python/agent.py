@@ -18,7 +18,7 @@ INT8_T = ord('i')
 INT16_T = ord('l')
 ASCII = ord('a')
 
-TOPIC = "twelite/sensor"
+TOPIC = "sensor"
 
 ### Argument parser
 DESCRIPTION = '''
@@ -30,6 +30,9 @@ parser.add_argument("port", help="Serial port identifier")
 parser.add_argument("-t", "--type", default="int8_t", help="Type")
 
 args = parser.parse_args()
+
+def timestamp():
+    return math.floor(time.time()*1000)/1000
 
 if __name__ == '__main__':
 
@@ -50,7 +53,9 @@ if __name__ == '__main__':
                     data = mn.fetch(dst=args.dst, cmd=ASCII, quality_data=False)
                     print(data.decode('ascii'))
 
-                client.publish(TOPIC, data[0])
+                message = "dst{}:{.3f}:{}".format(dst, timestamp(), data[0])
+
+                client.publish(TOPIC, message)
 
             except tw.TweliteException as e:
                 print(e)

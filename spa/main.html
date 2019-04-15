@@ -12,6 +12,8 @@
     <br>
     <h3>Inference result</h3>
     <div id="app">
+        Device Name: {{device_name}}<br>
+        Time stamp: {{timestamp}}<br>
     Class label: [#{{cnt}}] {{message}}
     </div>
 
@@ -22,7 +24,9 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: '...',
+            device_name: '',
+            timestamp: '',
+            message: '',
             cnt: 0
         }
     });
@@ -33,7 +37,7 @@
     const host = window.location.hostname
     console.log(host)
     const port = 11883  // MQTT over WebSocket
-    const topic = 'twelite/sensor'
+    const topic = 'sensor'
 
     let cnt = 0;
 
@@ -44,7 +48,10 @@
     function onMessageArrived(msg) {
         data = msg.payloadString;
         console.log(data);
-        app.message = data;
+        data = data.split(':')
+        app.device_name = data[0];
+        app.timestamp = data[1];
+        app.message = data[2];
         cnt = cnt + 1;
         app.cnt = cnt;
     }
