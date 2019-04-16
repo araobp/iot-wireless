@@ -11,7 +11,7 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 
 ```
   PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .                             STM32 or PIC16F1
-[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[agent.js]<---[Comm. module]<--wireless--[IoT node or edge AI]
+[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[agent.js/py]<---[Comm. module]<--wireless--[IoT node or edge AI]
         ^                                               |
         |                                               V
         +-------------[Node.js-based web server]<---[Database]
@@ -24,15 +24,11 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 ## Wireless networking for IoT and edge AI
 
-(I am working on porting agent.py to agent.js, because Node.js is good at event-driven processing.)
-
-I use wireless communication modules supporting operations on UART for prototyping IoT and edge AI.
-
 ```
         +---------+
-        |         |<---[agent.js]<----[BLE: Microchip RN4020] (American)
+        |         |<---[agent.py]<----[BLE: Microchip RN4020] (American)
     <---|mosquitto|<---[agent.js]<----[EnOcean: EnOcean USB400J] (German)
-        |         |<---[agent.js]<----[TWELITE: MONO WIRELESS MONOSTICK] (Japanese)
+        |         |<---[agent.py]<----[TWELITE: MONO WIRELESS MONOSTICK] (Japanese)
         +---------+
 ```
 
