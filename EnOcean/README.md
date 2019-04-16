@@ -1,6 +1,6 @@
 # EnOcean
 
-## ESP3 packet format 
+## ESP3 packet examples
 
 [PTM210J Push button multi-channel switch module](https://www.enocean.com/en/enocean-modules-928mhz/details/ptm-210j/)
 ```
@@ -10,7 +10,7 @@ Optional Length(3,4): 02
 Packet Type(4,5): 0a
 CRC8(5,6): 0a
 PORG(6,7): 20
-Source ID(7,11): 00 29 7f 2d
+Source ID(7,11): XX XX XX XX
 Status(11,12): 84
 CRC8(12,13): a1
 Telegram Number(13,14): 01
@@ -26,7 +26,7 @@ Optional Length(3,4): 02
 Packet Type(4,5): 0a
 CRC8(5,6): 9b
 PORG(6,7): 22
-Source ID(7,11): 04 01 7c 00
+Source ID(7,11): XX XX XX XX
 Temperature(11,14): 00 00 5c 
 LRNbit(14,15): 08
 CRC8(15,16): 9c
