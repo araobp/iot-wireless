@@ -24,9 +24,17 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 ## Wireless networking for IoT and edge AI
 
-(I am working on integrating three agent.py/agent.js files into one agent.js, because Node.js is good at event-driven processing.)
+(I am working on porting agent.py to agent.js, because Node.js is good at event-driven processing.)
 
 I use wireless communication modules supporting operations on UART for prototyping IoT and edge AI.
+
+```
+        +---------+
+        |         |<---[agent.js]<----[BLE: Microchip RN4020] (American)
+    <---|mosquitto|<---[agent.js]<----[EnOcean: EnOcean USB400J] (German)
+        |         |<---[agent.js]<----[TWELITE: MONO WIRELESS MONOSTICK] (Japanese)
+        +---------+
+```
 
 **==> [BLE (Microchip RN4020)](./RN4020)**
 
