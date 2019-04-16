@@ -11,7 +11,7 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 
 ```
   PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .                             STM32 or PIC16F1
-[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[Gateway]<---[Comm. module]<--wireless--[IoT node or edge AI]
+[Vue.js-based SPA]<-----[Messaging such as MQTT]<---[agent.js]<---[Comm. module]<--wireless--[IoT node or edge AI]
         ^                                               |
         |                                               V
         +-------------[Node.js-based web server]<---[Database]
@@ -22,33 +22,21 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 
 Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU.
 
-### Wireless networking
-
-In this projects, the following wireless networking technologies are studied:
-- BLE
-- EnOcean
-- TWELITE
+## Wireless networking for IoT and edge AI
 
 I use wireless communication modules supporting operations on UART for prototyping IoT and edge AI.
 
+**==> [BLE (Microchip RN4020)](./RN4020)**
+
+**==> [EnOcean (EnOcean GmbH)](./EnOcean)**
+
+**==> [TWELITE (MONO WIRELESS)](./TWELITE)**
+
 ### Database
 
-I used to use Redis, Cassandra and ZooKeeper in my past projects.
-
 In this project, I use Redis because of its small footprint. I use Redis's ZADD command (sorted list) for storing time-series data.
-
-### Messaging
-
-MQTT is the most popular. I will also study other messaging technologies such as Redis pubsub.
 
 ### Demo GUI
 
 In this project, [a single page application (SPA)](./spa) is used for showing an inference result from an edge AI simulator.
 
-## Wireless networking for IoT and edge AI
-
-**==> [BLE(Microchip RN4020)](./RN4020)**
-
-**==> [EnOcean](./EnOcean)**
-
-**==> [TWELITE](./TWELITE)**
