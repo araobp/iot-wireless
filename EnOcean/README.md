@@ -1,8 +1,8 @@
 # EnOcean
 
-## Agent code
+## Gateway code
 
-**==>[agent.js](./agent.js)**
+**==>[gateway.js](./gateway.js)**
 
 ## ESP3 packet examples
 
