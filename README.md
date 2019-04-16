@@ -26,9 +26,8 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 In this projects, the following wireless networking technologies are studied:
 - BLE
-- TWELITE
 - EnOcean
-- LoRa
+- TWELITE
 
 I use wireless communication modules supporting operations on UART for prototyping IoT and edge AI.
 
@@ -48,20 +47,8 @@ In this project, [a single page application (SPA)](./spa) is used for showing an
 
 ## Wireless networking for IoT and edge AI
 
-### Bluetooth Low Energy
-
 **==> [BLE(Microchip RN4020)](./RN4020)**
 
-### TWELITE
-
-Although TWELITE is not so reliable, it is very cheap.
+**==> [EnOcean](./EnOcean)**
 
 **==> [TWELITE](./TWELITE)**
-
-### EnOcean
-
-I used EnOcean just as a wireless switch to turn on LED.
-
-### LoRa
-
-I used LoRa for wireless communication in mountians.
