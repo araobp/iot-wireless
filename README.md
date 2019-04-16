@@ -40,7 +40,7 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 ### Database
 
-In this project, I use Redis because of its small footprint. I use Redis's ZADD command (sorted list) for storing time-series data.
+In this project, I use MongoDB. Refer to [this project](https://github.com/araobp/api-server) that implemented Node.js-based API server with MongoDB.
 
 ### Demo GUI
 
