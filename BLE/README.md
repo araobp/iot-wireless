@@ -101,4 +101,3 @@ I find [this BLE simulator](https://play.google.com/store/apps/details?id=io.git
 
 - [RN4020 user's guide](http://ww1.microchip.com/downloads/en/devicedoc/70005191b.pdf)
 - [Web Bluetooth](https://developers.google.com/web/updates/2015/07/interact-with-ble-devices-on-the-web)
-- [Android BLE Library (Nordic Semiconductor)](https://github.com/NordicSemiconductor/Android-BLE-Library)
