@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+'''
+This script issues SUW command to send NOTIFY to a central node.
+'''
+
 import serial
 import time
 
