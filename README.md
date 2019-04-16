@@ -32,7 +32,7 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
         +---------+
 ```
 
-**==> [BLE (Microchip RN4020)](./RN4020)**
+**==> [BLE (Microchip RN4020)](./BLE)**
 
 **==> [EnOcean (EnOcean GmbH)](./EnOcean)**
 
