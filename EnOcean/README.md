@@ -1,4 +1,6 @@
-[PTM210J switch]
+
+[PTM210J Push button multi-channel switch module](https://www.enocean.com/en/enocean-modules-928mhz/details/ptm-210j/)
+```
 Header(0,1): 55
 Data Length(1,3): 00 07
 Optional Length(3,4): 02
@@ -11,9 +13,10 @@ CRC8(12,13): a1
 Telegram Number(13,14): 01
 RSSI(14,15): 37
 CRC(15,16): 90
+```
 
-
-[STM3xy temperature]
+[STM3xy Energy harvesting wireless temperature sensor module - including solar cell and helical antenna](https://www.enocean.com/en/enocean-modules/details/stm-331/)
+```
 Header(0,1): 55
 Header Length(1,3): 00 0a
 Optional Length(3,4): 02
@@ -27,4 +30,4 @@ CRC8(15,16): 9c
 Telegram Number(16,17): 01
 RSSI(17,18): 29
 CRC(18,19): ca
-
+```
