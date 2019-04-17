@@ -11,6 +11,7 @@ import math
 #CHARACTERISTIC_UUID = '01020304-0506-0708-0900-0a0b0c0d0e0f'
 
 TOPIC = "sensor"
+COMMAND = "command"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--interface",
@@ -50,6 +51,11 @@ class EdgeAiDelegate(btle.DefaultDelegate):
         msg = "{}:{:.3f}:{}".format(self.device_name, timestamp(), inference_result)
         self.mqtt_client.publish(self.mqtt_topic, msg)
 
+def on_message(client, userdata, message):
+    cmd = str(message.payload.decode("utf-8"))
+    print(cmd)
+    # send the command to a BLE peripheral
+
 if __name__ == '__main__':
 
     scanner = btle.Scanner(args.interface)
@@ -57,6 +63,9 @@ if __name__ == '__main__':
 
     client = mqtt.Client("ble-router-interface{}".format(args.device_name))
     client.connect("localhost")
+    client.on_message = on_message
+    client.subscribe(COMMAND)
+    client.loop_start()
 
     for device in devices:
 
