@@ -38,6 +38,22 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 **==> [TWELITE (MONO WIRELESS)](./TWELITE)**
 
+### Messaging
+
+#### Notifications: sensors to applications
+
+MQTT topic: "sensor"
+MQTT message format: "{<source ID>},{<timestamp(:.3f)>},{<data0>},{<data1>},...
+  
+Time stamp format: <epoch time in seconds>.<msec part of epoch time>
+
+Note: when it comes to wireless IoT, my experiences in my past IoT projects proves that MQTT messaging should use a CSV format (or binary) rather than JSON.
+
+#### Commands: applications to sensors
+
+MQTT topic: "command"
+MQTT message format: "{<destination ID>},{<command>}
+
 ### Database
 
 In this project, I use SQLite, because I want to run everything on RasPi.
