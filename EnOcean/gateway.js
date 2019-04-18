@@ -54,7 +54,7 @@ port.on('data', data => {
       }
       if (pos == 11 && porg == SWITCH) {
         // publish
-        msg =  'switch-' + id.join('') + ':' + timestamp() + ':' + it;
+        msg =  'switch-' + id.join('') + ',' + timestamp() + ',' + it;
         console.log(msg);
         if (connected) {
           client.publish(TOPIC, msg)
@@ -62,8 +62,7 @@ port.on('data', data => {
       }
       if (pos == 13 && porg == TEMP) {
         let temp = math.round((255 - it) * 40 / 255, 1);
-        msg = timestamp() + ':' + porg.toString(16) + ':' + id.join('') + ':' + temp;
-        msg = 'temp-' + id.join('') + ':' + timestamp() + ':' + temp;
+        msg = 'temp-' + id.join('') + ',' + timestamp() + ',' + temp;
         console.log(msg);
         if (connected) {
           client.publish(TOPIC, msg)

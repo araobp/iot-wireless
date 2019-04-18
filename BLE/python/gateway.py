@@ -48,7 +48,7 @@ class EdgeAiDelegate(btle.DefaultDelegate):
         #print('handle: {}'.format(cHandle))
         inference_result = int.from_bytes(data, 'little', signed=False)
         print(inference_result)
-        msg = "{}:{:.3f}:{}".format(self.device_name, timestamp(), inference_result)
+        msg = "{},{:.3f},{}".format(self.device_name, timestamp(), inference_result)
         self.mqtt_client.publish(self.mqtt_topic, msg)
 
 def on_message(client, userdata, message):

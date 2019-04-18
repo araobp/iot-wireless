@@ -53,7 +53,7 @@ if __name__ == '__main__':
                     data = mn.fetch(dst=args.dst, cmd=ASCII, quality_data=False)
                     print(data.decode('ascii'))
 
-                message = "dst{}:{.3f}:{}".format(dst, timestamp(), data[0])
+                message = "dst{},{.3f},{}".format(dst, timestamp(), data[0])
 
                 client.publish(TOPIC, message)
 
