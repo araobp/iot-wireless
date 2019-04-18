@@ -14,7 +14,7 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 [spa(Vue.js)]<------[mosquitto]<-------[gateway.py]<--[Comm. module]<- - wireless - - -[IoT node or edge AI]
         ^                                  |                     (BLE, EnOcean or TWELITE)
         |                                  V
-        +-----------[APi.py(Flask)]<---[sqlite3]
+        +-----------[api.py(Flask)]<---[sqlite3]
                    . . . . . . RasPi . . . . . . . .                                    
 ```
 
