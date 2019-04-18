@@ -54,9 +54,10 @@ Note: when it comes to wireless IoT, my experiences in my past IoT projects prov
 MQTT topic: "command"
 MQTT message format: "{<destination ID>},{<command>}
 
-### Database
+### Database and API server
 
-In this project, I use SQLite, because I want to run everything on RasPi.
+- In this project, I use SQLite, because I want to run everything on RasPi.
+- I use Flask as a web framework to implement RESTful API server.
 
 ### Demo GUI
 
