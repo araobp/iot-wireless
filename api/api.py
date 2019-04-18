@@ -1,4 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
+import json
+
+DB = 'log.sqlite3'
+conn = None
 
 api = Flask('api')
 
@@ -10,11 +15,14 @@ def index():
 
 @api.route('/devices', methods=['GET'])
 def devices():
-    title = "Devices"
-    message = "Devices"
-    return render_template('index.html', message=message, title=title)
+    devices = {'devices': ['a', 'b', 'c']}
+    return json.dumps(devices)
 
 if __name__ == '__main__':
+    conn = sqlite3.connect(DB)
     api.debug = True
-    api.run(host='0.0.0.0')
+    try:
+        api.run(host='0.0.0.0')
+    except KeyboardInterrupt:
+        conn.close()
 
