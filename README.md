@@ -12,9 +12,10 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 ```
   PC and smart phone    . . . . . . RasPi . . . . . . . . . . . .                             STM32 or PIC16F1
 [Vue.js-based SPA]<-----[Messaging such as MQTT]<---[agent.js/py]<---[Comm. module]<--wireless--[IoT node or edge AI]
-        ^                                               |
-        |                                               V
-        +-------------[Node.js-based web server]<---[Database]
+        ^                           |
+        |                           +--[logger.py-->[sqlite3]
+        |                                               |
+        +---------------[web server]<-------------------+
                         . . . . . . RasPi . . . . . . . . . . . .                                    
 ```
 
