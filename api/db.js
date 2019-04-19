@@ -43,14 +43,27 @@ exports.logDB = {
     });
   },
 
-  logDevice: function(device, callback) {
-    db.all('select * from log where device=$device',
-      {$device: device},
-      (err, data) => {
-        callback(err, data);
-    });
+  logDevice: function(device, from, to, callback) {
+    if (from && to < 0) {
+      db.all('select * from log where device=$device and timestamp >= $from',
+        {$device: device, $from: from},
+        (err, data) => {
+          callback(err, data);
+      });
+    } else if (from && to) {
+      db.all('select * from log where device=$device and timestamp >= $from and timestamp <= $to',
+        {$device: device, $from: from, $to: to},
+        (err, data) => {
+          callback(err, data);
+      });
+    } else {
+      db.all('select * from log where device=$device',
+        {$device: device},
+        (err, data) => {
+          callback(err, data);
+      });
+    }
   }
 
 }
-
 

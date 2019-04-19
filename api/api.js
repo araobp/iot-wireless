@@ -38,7 +38,14 @@ app.get('/log', (req, res) => {
 
 app.get('/log/:device', (req, res) => {
   let device = req.params.device;
-  logDB.logDevice(device, (err, data) => sendResp(res, err, data));
+  let body = req.body;
+  let from = null;
+  let to = null;
+  if (body) {
+    from = body.from;
+    to = body.to;
+  }
+  logDB.logDevice(device, from, to, (err, data) => sendResp(res, err, data));
 });
 
 app.listen(PORT, () => {
