@@ -16,7 +16,7 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 [spa(Vue.js)]<------[mosquitto]<-------[gateway.py]<--[Comm. module]<- - wireless - - -[IoT node or edge AI]
         ^                                  |                     (BLE, EnOcean or TWELITE)
         |                                  V
-        +-----------[api.py(Flask)]<---[sqlite3]
+        +------------------[api.js]<---[sqlite3]
                    . . . . . . RasPi . . . . . . . .                                    
 ```
 
@@ -62,7 +62,7 @@ MQTT message format: "{<destination ID>},{<command>}
 ### Database and API server
 
 - In this project, I use SQLite, because I want to run everything on RasPi.
-- I use Flask as a web framework to implement RESTful API server.
+- I use node.js as a web framework to implement RESTful API server.
 
 ==> **[RESTful API server with sqlite3](./api)**
 
