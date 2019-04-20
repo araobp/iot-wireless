@@ -4,6 +4,10 @@ import requests
 URL = 'http://localhost:18080{}'
 headers = {'Content-type': 'application/json'}
 
+DEVICE = 'pub'
+FROM = 1555799654.957
+TO = 1555799669.976
+
 def _pprint(resp, comment=None):
     print()
     if comment:
@@ -30,12 +34,15 @@ if __name__ == '__main__':
 
     r = _get('/log')
 
-    r = _get('/log/temp-04017c00')
+    r = _get('/log/'+DEVICE)
 
-    body = {'from': 1555632665.063, 'to': 1555634983.369}
-    r = _get('/log/temp-04017c00', body=body)
+    body = {'from': FROM}
+    r = _get('/log/'+DEVICE, body=body)
 
-    body = {'from': 1555632665.063, 'to': -1}
-    r = _get('/log/temp-04017c00', body=body)
+    body = {'from': FROM, 'to': TO}
+    r = _get('/log/'+DEVICE, body=body)
+
+    body = {'from': FROM, 'to': -1}
+    r = _get('/log/'+DEVICE, body=body)
 	
 

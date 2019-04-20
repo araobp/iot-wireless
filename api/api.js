@@ -20,7 +20,7 @@ function sendResp(res, err, doc) {
     res.status(doc.status).send(doc.reason);
   } else {
     if (doc) {
-      console.log(doc);
+      //console.log(doc);
       res.send(doc);
     } else {
       res.send();

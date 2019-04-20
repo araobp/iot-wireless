@@ -15,13 +15,16 @@ exports.logDB = {
       client.subscribe(TOPIC);
     });
     client.on('message', (topic, message) => {
-      console.log(message.toString());
-			msg = message.toString().split(',');
+      //console.log(message.toString());
+			let msg = message.toString().split(',');
+      let device = msg[0];
+      let timestamp = msg[1];
+      let data = msg.slice(2).join();
       db.run('insert into log (device, timestamp, data) values ($n, $t, $d)',
       {
-        $n: msg[0],
-        $t: msg[1],
-        $d: msg[2]
+        $n: device,
+        $t: timestamp,
+        $d: data
       });
     });
     callback(true);
@@ -60,10 +63,10 @@ exports.logDB = {
       db.all('select * from log where device=$device',
         {$device: device},
         (err, data) => {
+          let records = [];
           callback(err, data);
       });
     }
   }
-
 }
 
