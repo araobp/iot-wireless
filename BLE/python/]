@@ -1,22 +1,33 @@
-#
-# Gateway implementation for BLE peripherals based on bluepy.
-#
-
 from bluepy import btle
 import paho.mqtt.client as mqtt
 import argparse
 import time
 import math
 
-# MQTT topic to broadcast notifications from BLE peripheral
+#DEVICE_NAME = 'RN079D'
+#
+#MAC_ADDRESS = None
+#SERVICE_UUID = '11223344-5566-7788-9900-aabbccddeeff'
+#CHARACTERISTIC_UUID = '01020304-0506-0708-0900-0a0b0c0d0e0f'
+
 TOPIC = "sensor"
+COMMAND = "command"
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--interface",
+                            help="BLE interface number (hcix)", type=int, default=0)
+parser.add_argument("-d", "--device_name", help="BLE device name")
+parser.add_argument("-s", "--service_uuid", help="Service UUID")
+parser.add_argument("-t", "--tx_characteristic_uuid", help="TX characteristic UUID")
+parser.add_argument("-r", "--rx_characteristic_uuid", help="RX characteristic UUID")
+args = parser.parse_args()
 
 def timestamp():
     return math.floor(time.time()*1000)/1000
 
 class EdgeAiDelegate(btle.DefaultDelegate):
     '''
-    Edge AI delegate to receive notifications from BLE peripheral.
+    Edge AI delegate to receive NOTIFY.
     '''
 
     def __init__(self, device_name, client, topic):
@@ -33,9 +44,6 @@ class EdgeAiDelegate(btle.DefaultDelegate):
         self.mqtt_client.publish(self.mqtt_topic, msg)
 
 class EdgeAiInterface():
-    '''
-    Interface to edge AI device as BLE peripheral.
-    '''
 
     def __init__(self, conn, tx_chara_uuid, rx_chara_uuid):
         self.conn = conn
@@ -45,7 +53,7 @@ class EdgeAiInterface():
 
     def enable_notify(self):
         '''
-        Enable notifications on the target characteristic.
+        Enable NOTIFY on the target characteristic.
         '''
         setup_data = b"\x01\x00"
         notify = self.conn.getCharacteristics(uuid=self.tx_chara_uuid)[0]
@@ -53,38 +61,20 @@ class EdgeAiInterface():
         self.conn.writeCharacteristic(notify_handle, setup_data, withResponse=True)
 
     def on_message(self, client, userdata, message):
-        '''
-        Callback function to receive MQTT messages on the topic.
-        This functon relays the received data to BLE peripheral.
-
-        Caution: BLE ATT allows maximum data length of 23.
-        '''
-        cmd = message.payload
+        cmd = str(message.payload.decode("utf-8")).encode('utf8')
         print(cmd)
         # send the command to a BLE peripheral
-        self.conn.writeCharacteristic(self.write_handle, cmd, withResponse=True)
-
+        self.conn.writeCharacteristc(self.write_handle, cmd, withResponse=True)
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--interface",
-                                help="BLE interface number (hcix)", type=int, default=0)
-    parser.add_argument("-d", "--device_name", help="BLE device name")
-    parser.add_argument("-s", "--service_uuid", help="Service UUID")
-    parser.add_argument("-t", "--tx_characteristic_uuid", help="TX characteristic UUID")
-    parser.add_argument("-r", "--rx_characteristic_uuid", help="RX characteristic UUID")
-    args = parser.parse_args()
-
-    # Scan BLE peripherals
     scanner = btle.Scanner(args.interface)
     devices = scanner.scan(3.0)
 
-    # BLE peripherals
+
     for device in devices:
 
         mac_address = None
-
         # Search for the device name
         for (adTypeCode, description, valueText) in device.getScanData():
             if valueText == args.device_name:
@@ -94,15 +84,15 @@ if __name__ == '__main__':
                 print(adTypeCode, description, valueText)
                 mac_address = device.addr
 
-        # Connect to the BLE peripheral 
         if mac_address: # If found
             peripheral = btle.Peripheral()
             if device.addrType == 'random':
                 peripheral.connect(mac_address, btle.ADDR_TYPE_RANDOM) 
             else:
                 peripheral.connect(mac_address) 
+            peripheral.withDelegate(EdgeAiDelegate(args.device_name,
+                                                client, TOPIC))
 
-            # List up characterstics supported by the peripheral
             for service in peripheral.getServices():
                 if service.uuid == args.service_uuid:
                     print('--- services and characteristics ---')
@@ -112,23 +102,17 @@ if __name__ == '__main__':
                         print(characteristic.propertiesToString()) 
                         pass
 
-            # Edge AI instance
-            interface = EdgeAiInterface(peripheral, args.tx_characteristic_uuid,
-                    args.rx_characteristic_uuid)
-            interface.enable_notify()  # Enable BLE notify on the edge AI device
+            interface = EdgeAiInterface(peripheral, args.tx_characterstic_uuid,
+                    args.rx_characteristc_uuid)
+            interface.enable_notify()
 
-            # MQTT client setup 
+            # MQTT 
             client = mqtt.Client("ble-router-interface{}".format(args.device_name))
             client.connect("localhost")
             client.on_message = interface.on_message
-            client.subscribe(args.device_name)
-            client.loop_start()  # MQTT client starts anohter thread
+            client.subscribe(COMMAND)
+            client.loop_start()
 
-            # BLE notification callback function registration 
-            peripheral.withDelegate(EdgeAiDelegate(args.device_name,
-                                                client, TOPIC))
-
-            # Inifinite loop for waiting notifications from BLE device
             while True:
                 if peripheral.waitForNotifications(1.0):
                     #print("Notification")
