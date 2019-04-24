@@ -34,13 +34,27 @@ SS,00000001
 SR,20000000
 PZ
 PS,11223344556677889900AABBCCDDEEFF
-PC,010203040506070809000A0B0C0D0E0F,10,01
+PC,010203040506070809000A0B0C0D0E0F,10,23
+PC,010203040506070809000A0B0C0DEEFF,04,23
+S-,ASC
 R,1
 ```
 
-Notify an inference result to a smart phone by [this script](./python/edge_ai_simulator.py)
+When I connected and disconnected BLE Scanner to RN4020, the console outputed the following: 
 ```
-SUW,010203040506070809000A0B0C0D0E0F,03
+Connected
+ConnParam:0006,0000,07D0
+ConnParam:0027,0000,07D0
+WV,000E,01020304.
+WC,000C,0100.
+Connection End
+```
+
+When I entered a command to send a notification, the console outputed the following: 
+```
+(SUW,010203040506070809000A0B0C0D0E0F,03)
+AOK
+AOK
 ```
 
 ### On BLE scanner (Android app)
