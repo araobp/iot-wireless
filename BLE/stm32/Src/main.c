@@ -20,7 +20,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -28,8 +27,8 @@
 /* USER CODE BEGIN Includes */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#include "rn4020.h"
 
 /* USER CODE END Includes */
 
@@ -40,6 +39,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define BUFSIZE 64U
 
 /* USER CODE END PD */
 
@@ -51,10 +51,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
-// TODO: implement command reception procedure
-volatile bool request_received = true;
-
+uint8_t uart_rx_data;
+uint8_t data_buf[BUFSIZE/2];
+volatile bool command_received;
+int data_len;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,6 +66,25 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+/**
+ * Receive data from a BLE centra via RN4020 module.
+ *
+ * Note: the maximum length is 20 bytes.
+ */
+void receiveData(uint8_t *data, int len) {
+  // Note: the following is only for a debugging purpose.
+  data[len] = '\0';
+  printf("%s\n", data);
+}
+
+/**
+ * Send one-byte data to a BLE central via RN4020 module
+ */
+void sendData(uint8_t data) {
+  char send_buf[40];
+  sprintf(send_buf, "SUW,010203040506070809000A0B0C0D0E0F,%02x\n", data);
+  HAL_UART_Transmit(&huart1, (uint8_t *)send_buf, 40, 0xffff);
+}
 
 /* USER CODE END 0 */
 
@@ -76,10 +95,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
-  // Test data
-    uint8_t data = 0;
-
+  uint8_t cnt = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -100,10 +116,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
 
   /* USER CODE END 2 */
 
@@ -111,12 +127,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if (command_received) {
+      receiveData(data_buf, data_len);
+      sendData(cnt++);
+      command_received = false;
+    }
     /* USER CODE END WHILE */
 
-    if (request_received) {
-      rn4020_uart_tx(data++);
-      HAL_Delay(1000);
-    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -167,13 +184,30 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-/*
- * One-byte command reception from PC
- *
- * TODO: implement command reception procedure.
- */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-  request_received = true;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
+  static int idx = 0;
+  static uint8_t uart_rx_buf[BUFSIZE];
+  char ascii_hex_buf[3];
+  if (!command_received) {
+    if (uart_rx_data == '\n') {
+      if (uart_rx_buf[0] == 'W' && uart_rx_buf[1] == 'V' && uart_rx_buf[2] == ',') {
+        data_len = idx - 10;
+        for (int i = 0; i < data_len / 2; i++) {
+          ascii_hex_buf[0] = uart_rx_buf[8+i*2];
+          ascii_hex_buf[1] = uart_rx_buf[8+i*2+1];
+          ascii_hex_buf[2] = '\0';
+          data_buf[i] = (uint8_t)strtol(ascii_hex_buf, NULL, 16);
+          command_received = true;
+        }
+        data_len = data_len/2;
+      }
+      idx = 0;
+    } else {
+      uart_rx_buf[idx++] = uart_rx_data;
+    }
+    if (idx >= BUFSIZE) idx = 0;
+  }
+  HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
 }
 
 /*
@@ -182,8 +216,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
  * Note: use usart2 instead of usart1 for debugging.
  */
 int _write(int file, char *ptr, int len) {
-  HAL_UART_Transmit(&huart1, (uint8_t *) ptr, (uint16_t) len, 0xFFFFFFFF);
-  //HAL_UART_Transmit(&huart2, (uint8_t *) ptr, (uint16_t) len, 0xFFFFFFFF);
+  //HAL_UART_Transmit(&huart1, (uint8_t *) ptr, (uint16_t) len, 0xFFFFFFFF);
+  HAL_UART_Transmit(&huart2, (uint8_t *) ptr, (uint16_t) len, 0xFFFFFFFF);
   return len;
 }
 

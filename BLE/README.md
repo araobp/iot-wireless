@@ -34,12 +34,12 @@ SS,00000001
 SR,20000000
 PZ
 PS,11223344556677889900AABBCCDDEEFF
-PC,010203040506070809000A0B0C0D0E0F,10,23
-PC,010203040506070809000A0B0C0DEEFF,04,23
+PC,010203040506070809000A0B0C0D0E0F,10,16
+PC,010203040506070809000A0B0C0DEEFF,04,16
 R,1
 ```
 
-When I connected and disconnected BLE Scanner to RN4020, the console outputed the following: 
+When I connected and disconnected BLE Scanner to RN4020, the console outputed the following:
 ```
 Connected
 ConnParam:0006,0000,07D0
@@ -49,7 +49,7 @@ WC,000C,0100.
 Connection End
 ```
 
-When I entered a command to send a notification, the console outputed the following: 
+When I entered a command to send a notification, the console outputed the following:
 ```
 (SUW,010203040506070809000A0B0C0D0E0F,03)
 AOK
