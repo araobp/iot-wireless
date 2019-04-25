@@ -103,6 +103,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // The following line is necessary for rx processing.
     RN4020_Process();
     /* USER CODE END WHILE */
 
