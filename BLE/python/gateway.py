@@ -27,8 +27,9 @@ class EdgeAiDelegate(btle.DefaultDelegate):
 
     def handleNotification(self, cHandle, data):
         #print('handle: {}'.format(cHandle))
+        #print(data)
         inference_result = int.from_bytes(data, 'little', signed=False)
-        print(inference_result)
+        print("inference result: {}".format(inference_result))
         msg = "{},{:.3f},{}".format(self.device_name, timestamp(), inference_result)
         self.mqtt_client.publish(self.mqtt_topic, msg)
 
@@ -41,16 +42,18 @@ class EdgeAiInterface():
         self.conn = conn
         self.tx_chara_uuid = tx_chara_uuid
         self.rx_chara_uuid = rx_chara_uuid
-        self.write_handle = self.conn.getCharacteristics(uuid=rx_chara_uuid)[0].getHandle()
+        self.write_char = self.conn.getCharacteristics(uuid=tx_chara_uuid)[0]
 
     def enable_notify(self):
         '''
         Enable notifications on the target characteristic.
         '''
         setup_data = b"\x01\x00"
-        notify = self.conn.getCharacteristics(uuid=self.tx_chara_uuid)[0]
+        notify = self.conn.getCharacteristics(uuid=self.rx_chara_uuid)[0]
         notify_handle = notify.getHandle() + 1
-        self.conn.writeCharacteristic(notify_handle, setup_data, withResponse=True)
+        # In case of RN4020, write fails sometimes. Repeat write three times.
+        for i in range(3):
+            self.conn.writeCharacteristic(notify_handle, setup_data, withResponse=True)
 
     def on_message(self, client, userdata, message):
         '''
@@ -60,9 +63,9 @@ class EdgeAiInterface():
         Caution: BLE ATT allows maximum data length of 23.
         '''
         cmd = message.payload
-        print(cmd)
+        print("cmd from mqtt bus: {}".format(cmd))
         # send the command to a BLE peripheral
-        self.conn.writeCharacteristic(self.write_handle, cmd, withResponse=True)
+        self.write_char.write(cmd, withResponse=False)
 
 
 if __name__ == '__main__':
@@ -102,15 +105,20 @@ if __name__ == '__main__':
             else:
                 peripheral.connect(mac_address) 
 
+            desc_list = peripheral.getDescriptors()
+            print('--- descriptors ---')
+            for desc in desc_list:
+                print(desc.uuid, desc.handle, str(desc))
+
             # List up characterstics supported by the peripheral
             for service in peripheral.getServices():
                 if service.uuid == args.service_uuid:
                     print('--- services and characteristics ---')
                     for characteristic in service.getCharacteristics():
-                        print(characteristic.uuid)
-                        print(characteristic.getHandle())
-                        print(characteristic.propertiesToString()) 
-                        pass
+                        print('uuid: {}'.format(characteristic.uuid))
+                        print('handle: {}'.format(characteristic.getHandle()))
+                        print('property string: {}'.format(characteristic.propertiesToString()))
+                        print()
 
             # Edge AI instance
             interface = EdgeAiInterface(peripheral, args.tx_characteristic_uuid,
