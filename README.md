@@ -34,11 +34,18 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
         +---------+
 ```
 
+### Low-power wireless
+
+- My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2 BLE) is the most useful wireless module. RN4020 is also easy to use. 
+- I have also evaluated STMicro's X-CUBE-IDB05A1 (SPBTLE-RF module) with X-CUBE-BLE1, but the software package is not easy to use. I don't like CubeMX, because its quality is not good for TrueSTUDIO users. I often suffer from bugs in CubeMX and X-CUBE-something.
+- Although I have not tested Bluetooth 5 yet, it even supports long range and AoA (Angle of Arrival). I am not going to use TWELITE and LoRa in my upcoming projects, because they can be replaced with Bluetooth 5.
+- The best application of EnOcean is energey-harvesting switch, but EnOcean is not one and only choice.
+
 **==> [BLE (Microchip RN4020)](./BLE)**
 
-**==> [EnOcean (EnOcean GmbH)](./EnOcean)**
+==> [EnOcean (EnOcean GmbH)](./EnOcean)
 
-**==> [TWELITE (MONO WIRELESS)](./TWELITE)**
+==> [TWELITE (MONO WIRELESS)](./TWELITE)
 
 ### Messaging
 
