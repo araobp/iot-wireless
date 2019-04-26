@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "app_nfc_uri.h"
+
 #define BUFSIZE 64U
 
 uint8_t uart_rx_data;
@@ -24,7 +26,7 @@ char send_buf[100];
  * Initialize interface to RN4020
  */
 void RN4020_Init(void) {
-  HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
+  HAL_UART_Receive_IT(&huart6, &uart_rx_data, 1);
 }
 
 /**
@@ -36,6 +38,8 @@ static void receiveData(uint8_t *data, int len) {
   // Note: the following is only for a debugging purpose.
   data[len] = '\0';
   printf("%s\n", data);
+  // Write URI to NFC tag
+  uri_modify_request_handler((char *)data);
 }
 
 /**
@@ -52,7 +56,7 @@ void sendData(uint8_t *data, int len) {
   }
   send_buf[37+len*2] = '\n';
 
-  HAL_UART_Transmit(&huart1, (uint8_t *)send_buf, 37+len*2+1, 0xffff);
+  HAL_UART_Transmit(&huart6, (uint8_t *)send_buf, 37+len*2+1, 0xffff);
 }
 
 /**
@@ -100,5 +104,5 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
     }
     if (idx >= BUFSIZE) idx = 0;
   }
-  HAL_UART_Receive_IT(&huart1, &uart_rx_data, 1);
+  HAL_UART_Receive_IT(&huart6, &uart_rx_data, 1);
 }
