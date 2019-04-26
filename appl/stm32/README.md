@@ -1,13 +1,10 @@
-# 
+# Integration with Dynamic NFC/RFID tag (STMicro's ST25DV04K)
 
 ## Collision problem
 
-USART1 RX uses PA10 pin that is also used for YELLOW LED by X-CUBE-NFC4.
+I was going to use USART1 for RN4020, but USART1's RX (PA10) is already used by X-CUBE-NFC4 for YELLOW LED.
 
-Change the pin assignment as follows:
-```
-YELLOW LED ==> PA5 [LD2 [Green LED]]
-```
+So I use USART6 instead.
 
 ## Bug in X-CUBE-NFC4/CubeMX
 
