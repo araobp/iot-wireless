@@ -1,6 +1,6 @@
-# Microchip RN4020
+# BLE
 
-## DIP board of RN4020
+## DIP board of Microchip RN4020
 
 Microchip [RN4020](https://www.microchip.com/wwwproducts/en/RN4020) module is very easy-to-use. I use [this DIP board](http://akizukidenshi.com/catalog/g/gK-11102/).
 
