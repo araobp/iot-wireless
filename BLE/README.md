@@ -49,7 +49,7 @@ I use Android app [BLE Scanner](https://play.google.com/store/apps/details?id=co
 
 ## Gateway code
 
-==> **[gateway.py](./BLE/python/gateway.py)**
+==> **[gateway.py](./python/gateway.py)**
 
 ## Web Bluetooth
 
