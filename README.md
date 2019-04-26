@@ -12,11 +12,11 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 - The system must be very easy to install or must support ad-hoc deployment.
 
 ```
-   Chrome          . . . . . . RasPi . . . . . . . .                                     STM32 or PIC16F1
-[spa(Vue.js)]<------[mosquitto]<-------[gateway.py]<--[Comm. module]<- - wireless - - -[IoT node or edge AI]
-        ^                                  |                     (BLE, EnOcean or TWELITE)
-        |                                  V
-        +------------------[api.js]<---[sqlite3]
+   Chrome          . . . . . . RasPi . . . . . . . .                                          STM32 or PIC16F1
+[spa(Vue.js)]<----->[mosquitto]<--->[gateway.py]<--->[Comm. module]<- Low-power wireless - >[IoT node or edge AI]
+        ^                |                                                 BLE etc
+        |                V
+        +----------->[api.js]---[sqlite3]
                    . . . . . . RasPi . . . . . . . .                                    
 ```
 
@@ -28,18 +28,15 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 ```
         +---------+
-        |         |<---[agent.py]<----[BLE: Microchip RN4020] (American)
-    <---|mosquitto|<---[agent.js]<----[EnOcean: EnOcean USB400J] (German)
-        |         |<---[agent.py]<----[TWELITE: MONO WIRELESS MONOSTICK] (Japanese)
+        |         |<---[gateway.py]<----[BLE: Microchip RN4020] (American)
+    <---|mosquitto|<---[gateway.js]<----[EnOcean: EnOcean USB400J] (German)
+        |         |<---[gateway.py]<----[TWELITE/IEEE802.15.4: MONO WIRELESS MONOSTICK] (Japanese)
         +---------+
 ```
 
 ### Low-power wireless
 
-- My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2 BLE) is the most useful wireless module. RN4020 is also easy to use. 
-- I have also evaluated STMicro's X-CUBE-IDB05A1 (SPBTLE-RF module) with X-CUBE-BLE1, but the software package is not easy to use. I don't like CubeMX, because its quality is not good for TrueSTUDIO users. I often suffer from bugs in CubeMX and X-CUBE-something.
-- Although I have not tested Bluetooth 5 yet, it even supports long range and AoA (Angle of Arrival). I am not going to use TWELITE and LoRa in my upcoming projects, because they can be replaced with Bluetooth 5.
-- The best application of EnOcean is energey-harvesting switch, but EnOcean is not one and only choice.
+My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2 BLE) is the most useful wireless module for IoT prototyping. RN4020 is also easy to use. 
 
 **==> [BLE (Microchip RN4020)](./BLE)**
 
@@ -77,3 +74,6 @@ MQTT message format: <command>
 
 In this project, [a single page application (SPA)](./spa) is used for showing an inference result from an edge AI simulator.
 
+### IoT nodes and edge AI devices
+
+- [Dynamic NFC tag with RN4020](./appl/stm32/Dynamic_NFC_tag_with_RN4020)
