@@ -47,7 +47,13 @@ I use Android app [BLE Scanner](https://play.google.com/store/apps/details?id=co
 <img src="./doc/screenshot_notification.jpg" width=200>
 
 
-## On Web Bluetooth (HTML5)
+## Gateway code
+
+==> **[gateway.py](./BLE/python/gateway.py)**
+
+## Web Bluetooth
+
+### On Web Bluetooth (HTML5)
 
 I run the python script on my PC, and I also run ["Web Bluetooth / Notification" sample](https://googlechrome.github.io/samples/web-bluetooth/notifications.html) on Chrome browser on my PC. It works!
 
