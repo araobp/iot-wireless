@@ -2,13 +2,15 @@
 
 (Work in progress)
 
-## Motivation
+## Motivation: Bluetooth is becoming wireless transport for IoT
 
-I saw Bluetooth router products developed by [Cassia Networks](https://www.cassianetworks.com/) at a trade show held in Tokyo in April 2019. BLE is not only for 1:1 but also 1:N, that sounds good for IoT networking.
+- I have not been thinking of BLE as wireless transport for IoT so far, but Bluetooth 5 has some enhancements for IoT: mesh networking and AoA(Angle of Arrival).
+- I saw Bluetooth router products developed by [Cassia Networks](https://www.cassianetworks.com/) at a trade show held in Tokyo in April 2019. BLE is not only for 1:1 but also 1:N.
 
 ## Goal
 
-- I will develop a gateway node that bridges between smart phones and IoT/EdgeAI.
+- Develop a node that bridges between smart phones and IoT/EdgeAI.
+- Support low-power wireless transport: BLE (main), EnOcean and TWELITE(IEEE802.15.4-based).
 - The system must be very easy to install or must support ad-hoc deployment.
 
 ```
@@ -24,7 +26,7 @@ I saw Bluetooth router products developed by [Cassia Networks](https://www.cassi
 
 Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU.
 
-## Wireless networking for IoT and edge AI
+## Low-power wireless networking for IoT and edge AI
 
 ```
         +---------+
@@ -34,7 +36,7 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
         +---------+
 ```
 
-### Low-power wireless
+### Gateway(adaptor) for low-power wireless
 
 My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2 BLE) is the most useful wireless module for IoT prototyping. RN4020 is also easy to use. 
 
