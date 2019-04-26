@@ -1,5 +1,9 @@
 # Dynamic NFC/RFID tag (STMicro's ST25DV04K) with RN4020
 
+## Application abstract
+
+RN4020 as a BLE module receives URI write requests from a BLE central (RasPi), and transfer the requests to STM32. STM32 writes the URI to NFC tag via I2C everytime it receives a request.
+
 ## Collision problem
 
 I was going to use USART1 for RN4020, but USART1's RX (PA10) is already used by X-CUBE-NFC4/X-NUCLEO-NFC05A1 for YELLOW LED.
