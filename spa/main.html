@@ -48,7 +48,7 @@
     function onMessageArrived(msg) {
         data = msg.payloadString;
         console.log(data);
-        data = data.split(':')
+        data = data.split(',')
         app.device_name = data[0];
         app.timestamp = data[1];
         app.message = data[2];
