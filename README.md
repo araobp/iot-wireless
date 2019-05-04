@@ -2,16 +2,22 @@
 
 (Work in progress)
 
-## Motivation: Bluetooth is becoming wireless transport for IoT
+## Motivation 1: Bluetooth is becoming wireless transport for IoT
 
 - I have not been thinking of BLE as wireless transport for IoT so far, but Bluetooth 5 has some enhancements for IoT: mesh networking and AoA(Angle of Arrival).
-- I saw Bluetooth router products developed by [Cassia Networks](https://www.cassianetworks.com/) at a trade show held in Tokyo in April 2019. BLE is not only for 1:1 but also 1:N.
+- I saw Bluetooth router products developed by [Cassia Networks](https://www.cassianetworks.com/) at a trade show held in Tokyo in April 2019. I got that BLE is not only for 1:1 but also 1:N.
+
+## Motivation 2: From cloud computing to edge computing
+
+- RasPi has enough processing power for handling IoT time-series data, so why not just use it as an IoT platform.
+- If its I/O bottleneck matters, connect SSD to it.
 
 ## Goal
 
 - Develop a node that bridges between smart phones and IoT/EdgeAI.
 - Support low-power wireless transport: BLE (main), EnOcean and TWELITE(IEEE802.15.4-based).
 - The system must be very easy to install or must support ad-hoc deployment.
+- Simple device management.
 
 ```
    Chrome          . . . . . . RasPi . . . . . . . .                                          STM32 or PIC16F1
