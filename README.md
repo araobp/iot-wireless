@@ -6,10 +6,12 @@
 
 - I have not been thinking of BLE as wireless transport for IoT so far, but Bluetooth 5 has some enhancements for IoT: mesh networking and AoA(Angle of Arrival).
 - I saw Bluetooth router products developed by [Cassia Networks](https://www.cassianetworks.com/) at a trade show held in Tokyo in April 2019. I got that BLE is not only for 1:1 but also 1:N.
+- RasPi (BlueZ) supports BLE, and its Python wrapper, bluepy, is very easy to use.
 
 ## Motivation 2: From cloud computing to edge computing
 
 - RasPi has enough processing power for handling IoT time-series data, so why not just use it as an IoT platform.
+- RasPi has four cores, so it can handle data from mulitple network interfaces in paralell.
 - If its I/O bottleneck matters, connect SSD to it.
 
 ## Goal
