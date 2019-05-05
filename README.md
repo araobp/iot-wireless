@@ -48,11 +48,11 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
 
 My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2 BLE) is the most useful wireless module for IoT prototyping. RN4020 is also easy to use. 
 
-**==> [BLE (Microchip RN4020)](./BLE)**
+**==> [BLE (Microchip RN4020)](./gateway/BLE)**
 
-==> [EnOcean (EnOcean GmbH)](./EnOcean)
+==> [EnOcean (EnOcean GmbH)](./gateway/EnOcean)
 
-==> [TWELITE (MONO WIRELESS)](./TWELITE)
+==> [TWELITE (MONO WIRELESS)](./gateway/TWELITE)
 
 ### Messaging
 
@@ -78,7 +78,7 @@ MQTT message format: <command>
 - In this project, I use SQLite, because I want to run everything on RasPi.
 - I use node.js as a web framework to implement RESTful API server.
 
-==> **[RESTful API server with sqlite3](./api)**
+==> **[RESTful API server with sqlite3](./server)**
 
 ### Demo GUI
 
@@ -86,4 +86,4 @@ In this project, [a single page application (SPA)](./spa) is used for showing an
 
 ### IoT nodes and edge AI devices
 
-- [Dynamic NFC tag with RN4020](./appl/stm32/Dynamic_NFC_tag_with_RN4020)
+- [Dynamic NFC tag with RN4020](./demo/device/stm32/Dynamic_NFC_tag_with_RN4020)
