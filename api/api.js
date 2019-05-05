@@ -15,6 +15,8 @@ logDB.start((err) => {
 
 const PORT = 18080;
 
+app.use(express.static('./html5'));
+
 function sendResp(res, err, doc) {
   if (err) {
     res.status(doc.status).send(doc.reason);

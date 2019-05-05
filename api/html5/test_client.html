@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+  <script>
+
+    const host = window.location.hostname;
+    const port = 18080; 
+
+    function get(path, body, callback) {
+      let xhr = new XMLHttpRequest();
+      let url = "http://" + host + ":" + port + path;
+      xhr.open('GET', url, true);
+      xhr.onload = function() {
+        let doc = JSON.parse(xhr.responseText);
+        callback(doc);
+      } 
+      xhr.send(body);
+      //alert(path);
+    } 
+
+    get('/log', null, doc => {
+      console.log(doc);
+    });
+
+    get('/devices', null, doc => {
+      console.log(doc);
+      let params = {from: 1555799670.978, to: -1};
+      body = JSON.stringify(params);
+      get('/log/'+doc[0], body, doc => {
+        console.log(doc);
+      });
+    });
+
+  </script>
+  </body>
+</html>
