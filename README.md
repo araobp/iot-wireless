@@ -65,7 +65,7 @@ MQTT message format: "{<source device name>},{<timestamp(:.3f)>},{<data0>},{<dat
 
 Time stamp format: <epoch time in seconds>.<msec part of epoch time>
 
-Note: when it comes to wireless IoT, my experiences in my past IoT projects proves that MQTT messaging should use a CSV format (or binary) rather than JSON that add a lot of overhead.
+Note: when it comes to wireless IoT, my experiences in my past IoT projects proves that MQTT messaging should use a CSV format (or binary) rather than JSON that adds a lot of overhead.
 
 #### Commands: applications to sensors
 
