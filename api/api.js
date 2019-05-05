@@ -15,7 +15,8 @@ logDB.start((err) => {
 
 const PORT = 18080;
 
-app.use(express.static('./html5'));
+// Serving static files 
+app.use(express.static('.'));
 
 function sendResp(res, err, doc) {
   if (err) {
@@ -43,10 +44,13 @@ app.get('/log/:device', (req, res) => {
   let body = req.body;
   let from = null;
   let to = null;
-  if (body) {
-    from = body.from;
-    to = body.to;
+  if (req.query.from) {
+    from = req.query.from;
   }
+  if (req.query.to) {
+    to = req.query.to;
+  }
+  console.log(from, to);
   logDB.logDevice(device, from, to, (err, data) => sendResp(res, err, data));
 });
 

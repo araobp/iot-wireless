@@ -1,5 +1,6 @@
 import pprint
 import requests
+from urllib.parse import urlencode
 
 URL = 'http://localhost:18080{}'
 headers = {'Content-type': 'application/json'}
@@ -36,13 +37,13 @@ if __name__ == '__main__':
 
     r = _get('/log/'+DEVICE)
 
-    body = {'from': FROM}
-    r = _get('/log/'+DEVICE, body=body)
+    params = {'from': FROM}
+    r = _get('/log/'+DEVICE+'?'+urlencode(params))
 
-    body = {'from': FROM, 'to': TO}
-    r = _get('/log/'+DEVICE, body=body)
+    params = {'from': FROM, 'to': TO}
+    r = _get('/log/'+DEVICE+'?'+urlencode(params))
 
-    body = {'from': FROM, 'to': -1}
-    r = _get('/log/'+DEVICE, body=body)
+    params = {'from': FROM, 'to': -1}
+    r = _get('/log/'+DEVICE+'?'+urlencode(params))
 	
 

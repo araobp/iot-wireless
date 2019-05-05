@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+  <script>
+
+    const host = window.location.hostname;
+    const port = 18080; 
+
+		function queryParams(params) {
+			 const params_string = [];
+			 for (k in params)
+				 params_string.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
+			 return '?' + params_string.join('&');
+		}
+
+    function get(path, callback) {
+      let xhr = new XMLHttpRequest();
+      let url = "http://" + host + ":" + port + path;
+      xhr.open('GET', url, true);
+      xhr.onload = function() {
+        let doc = JSON.parse(xhr.responseText);
+        callback(doc);
+      } 
+      xhr.send();
+      //alert(path);
+    } 
+
+    get('/log', doc => {
+      console.log(doc);
+    });
+
+    get('/devices', doc => {
+      console.log(doc);
+
+      get('/log/' + doc[0], doc => {
+        console.log(doc);
+      });
+
+      let params = queryParams({from: 1555799969.308, to: -1});
+      get('/log/' + doc[0] + params, doc => {
+        console.log(doc);
+      });
+
+      params = queryParams({from: 1555799969.308, to: 1555799973.312});
+      get('/log/' + doc[0] + params, doc => {
+        console.log(doc);
+			});
+    });
+
+  </script>
+  </body>
+</html>

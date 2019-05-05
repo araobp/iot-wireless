@@ -1,6 +1,6 @@
 // SQLite3 connection
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('log.sqlite3');
+let db = new sqlite3.Database('./database/log.sqlite3');
 
 // MQTT sensor event subscription
 const mqtt = require('mqtt');
