@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const yargs = require('yargs');
 
 app.use(bodyParser.urlencoded({extended: true, limit: '200mb'}));
 app.use(bodyParser.json({limit: '200mb'}));
@@ -15,8 +16,12 @@ logDB.start((err) => {
 
 const PORT = 18080;
 
-// Serving static files 
-app.use(express.static('.'));
+// Serving static files
+const args = yargs.argv;
+if (args.static) {
+  console.log(args.static);
+  app.use(express.static(args.static));
+}
 
 function sendResp(res, err, doc) {
   if (err) {
