@@ -82,7 +82,7 @@ MQTT message format: <command>
 
 ### Demo GUI
 
-In this project, [a single page application (SPA)](./spa) is used for showing an inference result from an edge AI simulator.
+In this project, [a single page application (SPA)](./demo/gui) is used for showing an inference result from an edge AI simulator.
 
 ### IoT nodes and edge AI devices
 
