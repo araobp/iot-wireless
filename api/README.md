@@ -38,8 +38,10 @@ GET /log/{device}?<from>&<to>
 
 URL parameters or "to" can be omitted. If "to" is negative, it means now.
 
-200 OK example
+GET and 200 OK example
 ```
+GET /log/temp-04017c00?from=1555631400.411&to=-1
+
 temp-04017c00,1555631400.411,26
 temp-04017c00,1555632665.063,26
 temp-04017c00,1555634140.341,26
