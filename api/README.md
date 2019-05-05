@@ -33,11 +33,10 @@ temp-04017c00,1555634140.341,26
 #### GET /log/{device}
 
 ```
-GET /log/{device}
-{"from": <epoch time> , "to": <epoch time>}
+GET /log/{device}?<from>&<to>
 ```
 
-Body or "to" can be omitted. If "to" is negative, it means now.
+URL parameters or "to" can be omitted. If "to" is negative, it means now.
 
 200 OK example
 ```
