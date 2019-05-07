@@ -86,10 +86,6 @@ MQTT message format: <command>
 
 ==> **[RESTful API server with sqlite3](./server)**
 
-### Demo GUI
-
-In this project, [a single page application (SPA)](./demo/gui) is used for showing an inference result from an edge AI simulator.
-
 ### IoT nodes and edge AI devices
 
 - [Dynamic NFC tag with RN4020](./demo/device/stm32/Dynamic_NFC_tag_with_RN4020)
