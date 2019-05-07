@@ -88,4 +88,5 @@ MQTT message format: <command>
 
 ### IoT nodes and edge AI devices
 
-- [Dynamic NFC tag with RN4020](./demo/device/stm32/Dynamic_NFC_tag_with_RN4020)
+- [Low-end edge AI for acoustic scene classification](https://github.com/araobp/acoustic-features)
+- [Dynamic NFC tag with RN4020(BLE module)](./device/dynamic-nfc/stm32/Dynamic_NFC_tag_with_RN4020)
