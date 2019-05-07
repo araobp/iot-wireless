@@ -1,4 +1,4 @@
-# RasPi-based micro platform of wireless IoT and edge AI
+# RasPi-based router for wireless IoT and edge AI
 
 (Work in progress)
 
