@@ -86,18 +86,18 @@ MQTT message format: <command>
 
 ==> **[RESTful API server with sqlite3](./server)**
 
-### IoT nodes and edge AI devices
+## IoT nodes and edge AI devices
 
-## BLE
+### BLE
 
 - [Low-end edge AI for acoustic scene classification](https://github.com/araobp/acoustic-features)
 - [Dynamic NFC tag with RN4020(BLE module)](./device/dynamic-nfc/stm32/Dynamic_NFC_tag_with_RN4020)
 
-## EnOcean
+### EnOcean
 
 - [PTM 210J switch](https://www.enocean.com/en/enocean-modules-928mhz/details/ptm-210j/)
 - [STM 331 temperature sensor](https://www.enocean.com/en/enocean-modules/details/stm-331/)
 
-## TWELITE
+### TWELITE
 
 - [People counter](https://github.com/araobp/pic16f1-mcu/blob/master/TWELITE.md)
