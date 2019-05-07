@@ -1,1 +1,1 @@
-node api.js --static=. 
+node api.js --static=../html5

@@ -1,0 +1,33 @@
+body {
+  background-color: lightsteelblue; 
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+#title {
+  font-size: 2em;
+  font-weight: bold;
+  color: black;
+}
+
+#app {
+  font-size: 1em;
+  color: darkslategray; 
+}
+
+#devices {
+  color: darkslategray; 
+}
+
+.widget {
+  padding: 1%;
+  background-color: seashell;
+}
+
+#past {
+  display: none;
+}
+
+canvas {
+  width: 900;
+}
