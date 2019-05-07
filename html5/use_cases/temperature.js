@@ -11,8 +11,7 @@ let chart = new Chart(ctx, {
       borderColor: 'rgb(255, 99, 132)',
       data: [],
       fill: false,
-      pointStyle: 'rect',
-      steppedLine: 'after'
+      pointStyle: 'rect'
     }]
   },
 

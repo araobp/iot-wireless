@@ -1,15 +1,20 @@
 // SQLite3 connection
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('./database/log.sqlite3');
 
 // MQTT sensor event subscription
 const mqtt = require('mqtt');
 const MQTT_SERVER = 'mqtt://localhost:1883'
 const TOPIC = 'sensor';
 
+let db = null;
+
 exports.logDB = {
 
-  start: function(callback) {
+
+  start: function(database, callback) {
+
+    db = new sqlite3.Database(database);
+
     let client = mqtt.connect(MQTT_SERVER);
     client.on('connect', () => {
       client.subscribe(TOPIC);

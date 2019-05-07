@@ -6,9 +6,12 @@ const yargs = require('yargs');
 app.use(bodyParser.urlencoded({extended: true, limit: '200mb'}));
 app.use(bodyParser.json({limit: '200mb'}));
 
-const logDB = require('./db.js').logDB;
+// Command arguments
+const args = yargs.argv;
 
-logDB.start((err) => {
+// Log database
+const logDB = require('./db.js').logDB;
+logDB.start(args.db, (err) => {
   if (err) {
     console.log(err);
   }
@@ -17,7 +20,6 @@ logDB.start((err) => {
 const PORT = 18080;
 
 // Serving static files
-const args = yargs.argv;
 if (args.static) {
   console.log(args.static);
   app.use(express.static(args.static));
