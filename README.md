@@ -17,23 +17,26 @@
 ## Goal
 
 - Develop a router that bridges between smart phones and IoT/EdgeAI.
-- Support low-power wireless transport: BLE (main), EnOcean and TWELITE(IEEE802.15.4-based).
-- The system must be very easy to install or must support ad-hoc deployment.
-- Simple device management.
+- Support low-power wireless transport: BLE (main), EnOcean, NFC and TWELITE(IEEE802.15.4-based).
+- Very easy to install or support ad-hoc deployment.
+- Support IoT/AI applications as SPA and as standalone processes (or as Docker containers).
+- Support device management for the router and IoT/AI nodes.
 
 ```
-                   ============ ROUTER =============
-   Chrome          . . . . . . RasPi . . . . . . . .                                          STM32 or PIC16F1
+                   ============== ROUTER ===============
+   Chrome          . . . . . . RasPi . . . . . . . . . .                                      STM32 or PIC16F1
 [spa(Vue.js)]<----->[mosquitto]<--->[gateway.py]<--->[Comm. module]<- Low-power wireless - >[IoT node or edge AI]
-        ^          :     |                         :                       BLE etc
-        |          :     V                         :
-        +----------->[api.js]---[sqlite3]          :
-                   . . . . . . RasPi . . . . . . . .                                    
+        ^          :     |                             :             BLE, EnOcean, NFC etc
+        |          :     V                             :
+        +----------->[api.js(node/express)]--[sqlite3] :
+                   :     |                             : 
+                   : [IoT/AI applications]             :       
+                   . . . . . . . . . . . . . . . . . . .                                   
 ```
 
 ### Hardware of the router
 
-Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU.
+Single board PCs such as RasPi. In other words, Ubuntu Linux on Four-core Arm Cortex-A53 MPU at 1.2GHz.
 
 ## Low-power wireless networking for IoT and edge AI
 
@@ -43,6 +46,8 @@ Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU
     <---|mosquitto|<---[gateway.js]<----[EnOcean: EnOcean USB400J] (German)
         |         |<---[gateway.py]<----[TWELITE/IEEE802.15.4: MONO WIRELESS MONOSTICK] (Japanese)
         +---------+
+        
+       Note: NFC device is remote-controlled via BLE.
 ```
 
 ### Gateway(adaptor) for low-power wireless
