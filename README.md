@@ -16,21 +16,22 @@
 
 ## Goal
 
-- Develop a node that bridges between smart phones and IoT/EdgeAI.
+- Develop a router that bridges between smart phones and IoT/EdgeAI.
 - Support low-power wireless transport: BLE (main), EnOcean and TWELITE(IEEE802.15.4-based).
 - The system must be very easy to install or must support ad-hoc deployment.
 - Simple device management.
 
 ```
+                   ============ ROUTER =============
    Chrome          . . . . . . RasPi . . . . . . . .                                          STM32 or PIC16F1
 [spa(Vue.js)]<----->[mosquitto]<--->[gateway.py]<--->[Comm. module]<- Low-power wireless - >[IoT node or edge AI]
-        ^                |                                                 BLE etc
-        |                V
-        +----------->[api.js]---[sqlite3]
+        ^          :     |                         :                       BLE etc
+        |          :     V                         :
+        +----------->[api.js]---[sqlite3]          :
                    . . . . . . RasPi . . . . . . . .                                    
 ```
 
-### Hardware of the gateway node
+### Hardware of the router
 
 Single board PCs such as RasPi. In other words, Ubuntu Linux on Arm Cortex-A MPU.
 
