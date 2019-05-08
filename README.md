@@ -84,7 +84,7 @@ MQTT message format: <command>
 - In this project, I use SQLite, because I want to run everything on RasPi.
 - I use node.js as a web framework to implement RESTful API server.
 
-==> **[RESTful API server with sqlite3](./server)**
+==> **[RESTful API server with sqlite3](./router)**
 
 ## IoT nodes and edge AI devices
 
