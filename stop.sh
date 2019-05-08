@@ -1,3 +1,4 @@
-kill -9 1785
-kill -9 1786
-kill -9 1787
+kill -9 10967
+sudo kill -9 10969
+sudo kill -9 10979
+kill -9 10992

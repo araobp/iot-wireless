@@ -1,3 +1,6 @@
+// Command line arguments
+const args = require('yargs').argv;
+
 // MQTT
 const mqtt = require('mqtt');
 const MQTT_SERVER = 'mqtt://localhost:1883';
@@ -6,7 +9,8 @@ const TOPIC = 'sensor';
 
 // Serial port
 const SerialPort = require('serialport');
-const PORT = '/dev/serial/by-id/usb-EnOcean_GmbH_EnOcean_USB_400J_DA_FTXHAW8W-if00-port0';
+//const PORT = '/dev/serial/by-id/usb-EnOcean_GmbH_EnOcean_USB_400J_DA_FTXHAW8W-if00-port0';
+const PORT = args.port;
 
 const math = require('math');
 

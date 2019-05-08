@@ -24,10 +24,3 @@ body {
   background-color: seashell;
 }
 
-#past {
-  display: none;
-}
-
-canvas {
-  width: 900;
-}

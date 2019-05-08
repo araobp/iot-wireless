@@ -7,6 +7,8 @@ import paho.mqtt.client as mqtt
 import argparse
 import time
 import math
+import os
+import sys
 
 # MQTT topic to broadcast notifications from BLE peripheral
 TOPIC = "sensor"
@@ -28,9 +30,9 @@ class EdgeAiDelegate(btle.DefaultDelegate):
     def handleNotification(self, cHandle, data):
         #print('handle: {}'.format(cHandle))
         #print(data)
-        inference_result = int.from_bytes(data, 'little', signed=False)
-        print("inference result: {}".format(inference_result))
-        msg = "{},{:.3f},{}".format(self.device_name, timestamp(), inference_result)
+        result = int.from_bytes(data, 'little', signed=False)
+        print("result: {}".format(result))
+        msg = "{},{:.3f},{}".format(self.device_name, timestamp(), result)
         self.mqtt_client.publish(self.mqtt_topic, msg)
 
 class EdgeAiInterface():
@@ -138,6 +140,12 @@ if __name__ == '__main__':
 
             # Inifinite loop for waiting notifications from BLE device
             while True:
-                if peripheral.waitForNotifications(1.0):
-                    #print("Notification")
-                    continue
+                try:
+                    if peripheral.waitForNotifications(1.0):
+                        #print("Notification")
+                        continue
+                except btle.BTLEDisconnectError: 
+                    time.sleep(10)
+                    python = sys.executable
+                    os.execl(python, python, *sys.argv)
+

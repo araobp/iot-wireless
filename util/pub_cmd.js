@@ -2,7 +2,7 @@ const mqtt = require('mqtt');
 
 const MQTT_SERVER = 'mqtt://localhost:1883'
 
-const DST = 'ASC079D';
+const DST = 'BLE2';
 const DATA = 'amazon.co.jp'; 
 
 let client = mqtt.connect(MQTT_SERVER);
