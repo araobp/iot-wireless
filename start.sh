@@ -1,7 +1,7 @@
 # Router start-up script
 
 echo "Starting api server..."
-node ./server/api.js --db=./server/database/log.sqlite3 --static=./html5 &
+node ./router/api.js --db=./router/database/log.sqlite3 --static=./router/html5 &
 echo "kill -9 $!" > ./stop.sh
 chmod +x ./stop.sh
 
@@ -20,4 +20,12 @@ echo "kill -9 $!" >> ./stop.sh
 #echo "Starting TWELITE gateway..."
 #python3 ./gateway/TWELITE/python/gateway.py --type int8_t 3 /dev/serial/by-id/usb-MONOWIRELESS_MONOSTICK_MW2MRZJP-if00-port0 &
 #echo "kill -9 $!" >> ./stop.sh
+
+
+echo "Starting local web server..."
+sudo node ./web/web.js --static=./web/html5 &
+sleep 1
+child_pid=$(ps --ppid $! -o pid=)
+echo "sudo kill -9 $!" >> ./stop.sh
+echo "sudo kill -9 $child_pid" >> ./stop.sh
 

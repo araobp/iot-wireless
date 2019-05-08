@@ -144,7 +144,7 @@ if __name__ == '__main__':
                     if peripheral.waitForNotifications(1.0):
                         #print("Notification")
                         continue
-                except btle.BTLEDisconnectError: 
+                except: 
                     time.sleep(10)
                     python = sys.executable
                     os.execl(python, python, *sys.argv)
