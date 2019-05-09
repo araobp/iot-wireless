@@ -1,6 +1,6 @@
-kill -9 15784
-sudo kill -9 15786
-sudo kill -9 15796
-kill -9 15804
-sudo kill -9 15805
-sudo kill -9 15816
+kill -9 17600
+sudo kill -9 17602
+sudo kill -9 17612
+kill -9 17620
+sudo kill -9 17621
+sudo kill -9 17632

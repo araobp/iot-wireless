@@ -4,6 +4,34 @@
 
 RN4020 as a BLE module receives URI write requests from a BLE central (RasPi), and transfer the requests to STM32. STM32 writes the URI to NFC tag via I2C everytime it receives a request.
 
+## URI write request
+
+
+```
+     +-----------------------+
+     |  NDEF URL identifier  |
+     +-----------------------+
+     |  ','                  |
+     +-----------------------+
+     |  URI field[0]         |
+     +-----------------------+
+     |  URI field[1]         |
+     +-----------------------+
+     |       :               |
+     |       :               |
+     +-----------------------+
+     |  URI field[n]         |
+     +-----------------------+
+     |  '\n'                 |
+     +-----------------------+
+
+```
+
+Example: 3,amazon.co.jp\n
+
+Due to the limitation of BLE payload size (max. 20bytes), the request message is split into multiple data.
+
+
 ## Collision problem
 
 I was going to use USART1 for RN4020, but USART1's RX (PA10) is already used by X-CUBE-NFC4/X-NUCLEO-NFC05A1 for YELLOW LED.

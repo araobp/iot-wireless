@@ -67,8 +67,11 @@ class EdgeAiInterface():
         cmd = message.payload
         print("cmd from mqtt bus: {}".format(cmd))
         # send the command to a BLE peripheral
-        self.write_char.write(cmd, withResponse=False)
-
+        cmd = [cmd[i:i+20] for i in range(0, len(cmd), 20)] 
+        print(cmd)
+        for c in cmd:
+            self.write_char.write(c, withResponse=False)
+            time.sleep(0.5)
 
 if __name__ == '__main__':
 
