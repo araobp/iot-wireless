@@ -47,3 +47,25 @@ temp-04017c00,1555632665.063,26
 temp-04017c00,1555634140.341,26
           :
 ```
+
+#### GET /applications
+
+```
+GET /applications
+```
+
+200 OK example
+```
+["room-temperature", "life-log", "wireless-switch", "dynamic-nfc"]
+```
+
+#### GET /applications/{application}
+
+```
+GET /applications/life-log
+```
+
+200 OK example
+```
+{"devices": ["BLE1", "BLE2"], "html5": "life-log/main.html"}
+```
