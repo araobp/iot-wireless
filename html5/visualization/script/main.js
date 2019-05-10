@@ -48,3 +48,4 @@ let app = new Vue({
   }
 });
 
+app.title = "Sensor data visualization";

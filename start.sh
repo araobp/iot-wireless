@@ -1,7 +1,7 @@
 # Router start-up script
 
 echo "Starting api server..."
-node ./router/api.js --db=./router/database/log.sqlite3 --static=./router/html5 &
+node ./router/api.js --db=./router/database/log.sqlite3 --static=./html5 &
 echo "kill -9 $!" > ./stop.sh
 chmod +x ./stop.sh
 
