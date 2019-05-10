@@ -13,6 +13,12 @@ import sys
 # MQTT topic to broadcast notifications from BLE peripheral
 TOPIC = "sensor"
 
+def restart():
+    time.sleep(10)
+    print("Restarting BLE gateway...")
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
 def timestamp():
     return math.floor(time.time()*1000)/1000
 
@@ -148,7 +154,6 @@ if __name__ == '__main__':
                         #print("Notification")
                         continue
                 except: 
-                    time.sleep(10)
-                    python = sys.executable
-                    os.execl(python, python, *sys.argv)
-
+                    restart()
+        else:
+            restart()
