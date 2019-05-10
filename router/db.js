@@ -10,7 +10,6 @@ let db = null;
 
 exports.logDB = {
 
-
   start: function(database, callback) {
 
     db = new sqlite3.Database(database);
@@ -51,8 +50,7 @@ exports.logDB = {
     });
   },
 
-  logDevice: function(device, from, to, callback) {
-    if (from && to < 0) {
+  logDevice: function(device, from, to, callback) { if (from && to < 0) {
       db.all('select * from log where device=$device and timestamp >= $from',
         {$device: device, $from: from},
         (err, data) => {
@@ -68,10 +66,29 @@ exports.logDB = {
       db.all('select * from log where device=$device',
         {$device: device},
         (err, data) => {
-          let records = [];
           callback(err, data);
       });
     }
+  },
+
+  applications: function(callback) {
+    let applications_list = [];
+    db.all('select distinct application from applications', (err, data) => {
+      data.forEach(it => {
+        applications_list.push(it.application);
+      });
+      callback(err, applications_list);
+    });
+  },
+
+  applicationsApplication: function(application, callback) {
+    db.all('select * from applications where application=$application',
+      {$application: application},
+      (err, data) => {
+        data = data[0];
+        data.devices = data.devices.split(',');
+        callback(err, data); 
+      });
   }
 }
 

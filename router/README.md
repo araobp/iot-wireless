@@ -7,7 +7,7 @@ sqlite> .tables
 applications  log
 sqlite> .schema
 CREATE TABLE log (device text, timestamp real, data text);
-CREATE TABLE applications (application text, devices text, html5 text);
+CREATE TABLE applications (application text primary key, devices text, html5 text);
 ```
 
 ## REST API spec
