@@ -90,7 +90,7 @@ MQTT message format: <command>
 
 The router provides HTML5-based applications:
 - [Sensor data visualization](./html5/visualization/use_cases)
-- [Dynamic NFC tag](./html5/dynamic-nfc)
+- [Dynamic NFC tag](./html5/dynamic_nfc)
 
 ## IoT nodes and edge AI devices
 
