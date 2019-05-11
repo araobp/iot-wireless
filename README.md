@@ -98,7 +98,8 @@ The router provides HTML5-based applications:
 ### Rich user interface
 
 The router reads/writes NDEF data on NFC tag via BLE and I2C: 
-- [Dynamic NFC tag](./html5/dynamic_nfc)
+- [Dynamic NFC tag with BLE and I2C)(./nfc)
+- [HTML5 GUI to write NDEF data to dynamic NFC tag via BLE and I2C](./html5/dynamic_nfc)
 
 ## IoT nodes and edge AI devices
 
