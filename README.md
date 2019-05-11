@@ -69,20 +69,30 @@ My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2
 #### Notifications: sensors to applications
 
 ```
-MQTT topic: "sensor"
-MQTT message format: "{<source device name>},{<timestamp(:.3f)>},{<data0>},{<data1>},...
+MQTT topic: "sensor-<source device name>"
+MQTT message format: "<source device name>,<timestamp(:.3f)>,<data0>,<data1>,..."
 ```
 
 Time stamp format: <epoch time in seconds>.<msec part of epoch time>
 
 Note: when it comes to wireless IoT, my experiences in my past IoT projects proves that MQTT messaging should use a CSV format (or binary) rather than JSON that adds a lot of overhead.
 
-#### Commands: applications to sensors
+#### Commands
+
+Request:
 
 ```
-MQTT topic: <destination device name> 
+MQTT topic: "<destination device name>-rx"
 MQTT message format: <command>
 ```
+
+Response:
+
+```
+MQTT topic: "<destination device name>-tx"
+MQTT message format: <response>
+```
+
 ### Database and API server
 
 - In this project, I use SQLite, because I want to run everything on RasPi.
