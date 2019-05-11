@@ -69,7 +69,7 @@ My conclusion in this project is that Microchip RN4020 BLE module (Bluetooth 4.2
 #### Notifications: sensors to applications
 
 ```
-MQTT topic: "sensor-<source device name>"
+MQTT topic: "sensor/<source device name>"
 MQTT message format: "<source device name>,<timestamp(:.3f)>,<data0>,<data1>,..."
 ```
 
@@ -82,14 +82,14 @@ Note: when it comes to wireless IoT, my experiences in my past IoT projects prov
 Request:
 
 ```
-MQTT topic: "<destination device name>-rx"
+MQTT topic: "<destination device name>/rx"
 MQTT message format: <command>
 ```
 
 Response:
 
 ```
-MQTT topic: "<destination device name>-tx"
+MQTT topic: "<destination device name>/tx"
 MQTT message format: <response>
 ```
 
