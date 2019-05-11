@@ -9,6 +9,6 @@
 
 #include <stdint.h>
 
-void uri_modify_request_handler(char *uri);
+void uri_modify_request_handler(char *data);
 
 #endif /* APP_NFC_URI_H_ */

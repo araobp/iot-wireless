@@ -1,14 +1,14 @@
 /**
   ******************************************************************************
-  * @file           : nucleo_f401re_errno.h
+  * @file           : stm32f4xx_nucleo_errno.h
   * @brief          : Error Code
   ******************************************************************************
   ******************************************************************************
 */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef NUCLEO_F401RE_ERRNO_H
-#define NUCLEO_F401RE_ERRNO_H
+#ifndef STM32F4XX_NUCLEO_ERRNO_H
+#define STM32F4XX_NUCLEO_ERRNO_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -41,6 +41,6 @@
 #define BSP_ERROR_BUS_CRC_ERROR              -106
 #define BSP_ERROR_BUS_DMA_FAILURE            -107
 
-#endif /*NUCLEO_F401RE_ERRNO_H */
+#endif /*STM32F4XX_NUCLEO_ERRNO_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

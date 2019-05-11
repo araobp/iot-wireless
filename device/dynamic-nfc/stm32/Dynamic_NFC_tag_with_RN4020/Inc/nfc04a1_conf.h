@@ -45,8 +45,8 @@ extern "C" {
  
  
 #include "stm32f4xx_hal.h"
-#include "nucleo_f401re_bus.h"
-#include "nucleo_f401re_errno.h"
+#include "stm32f4xx_nucleo_bus.h"
+#include "stm32f4xx_nucleo_errno.h"
 
 #include "stm32f4xx_hal_exti.h"
 

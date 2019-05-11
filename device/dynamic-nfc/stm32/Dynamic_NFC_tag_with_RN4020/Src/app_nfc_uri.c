@@ -6,15 +6,52 @@
 
 #include "app_nfc_uri.h"
 #include "lib_NDEF_URI.h"
+#include <stdbool.h>
 
-void uri_modify_request_handler(char *uri) {
-  sURI_Info URI;
-  strcpy( URI.protocol,URI_ID_0x02_STRING );  // "https://www.\0"
-  strcpy( URI.URI_Message, uri);
-  strcpy( URI.Information,"\0" );
+void uri_modify_request_handler(char *data) {
 
-  /* Write NDEF to EEPROM */
-  HAL_Delay(5);
-  while( NDEF_WriteURI( &URI ) != NDEF_OK );
+  static char uri[256];
+  static int cnt = 0;
+  static int i = 0;
+  static char type;
+
+  static bool receiving = false;
+
+  static sURI_Info URI;
+
+  if (!receiving) {
+    type = data[0];
+    switch(type) {
+      case '3':
+        strcpy( URI.protocol,URI_ID_0x03_STRING);
+        break;
+      case '4':
+        strcpy( URI.protocol,URI_ID_0x04_STRING);
+        break;
+      default:
+        break;
+    }
+    cnt= 2;
+    receiving = true;
+  }
+
+  while (cnt <= 19 && receiving) {
+    uri[i] = data[cnt];
+    if (uri[i] == '\n') {
+      receiving = false;
+      uri[i] = '\0';
+      i = 0;
+      strcpy( URI.URI_Message, uri);
+      strcpy( URI.Information,"\0" );
+
+      /* Write NDEF to EEPROM */
+      HAL_Delay(5);
+      while( NDEF_WriteURI( &URI ) != NDEF_OK );
+    } else {
+      cnt++;
+      i++;
+    }
+  }
+  cnt = 0;
 }
 

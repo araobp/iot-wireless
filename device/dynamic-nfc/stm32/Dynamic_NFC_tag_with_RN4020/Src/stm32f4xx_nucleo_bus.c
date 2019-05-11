@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file           : nucleo_f401re_bus.h
+  * @file           : stm32f4xx_nucleo_bus.h
   * @brief          : source file for the BSP BUS IO driver
   ******************************************************************************
   * @attention
@@ -17,7 +17,7 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
-#include "nucleo_f401re_bus.h"
+#include "stm32f4xx_nucleo_bus.h"
 
 __weak HAL_StatusTypeDef MX_I2C1_Init(I2C_HandleTypeDef* hi2c);								
 
@@ -25,29 +25,38 @@ __weak HAL_StatusTypeDef MX_I2C1_Init(I2C_HandleTypeDef* hi2c);
   * @{
   */
 
-/** @addtogroup NUCLEO_F401RE
+/** @addtogroup STM32F4XX_NUCLEO
   * @{
   */
 
-/** @defgroup NUCLEO_F401RE_BUS NUCLEO_F401RE BUS
+/** @defgroup STM32F4XX_NUCLEO_BUS STM32F4XX_NUCLEO BUS
   * @{
   */
   
 
-/** @defgroup NUCLEO_F401RE_Private_Variables BUS Private Variables
+/** @defgroup STM32F4XX_NUCLEO_BUS_Exported_Variables BUS Exported Variables
   * @{
   */
 
 I2C_HandleTypeDef hi2c1;											
-
-#if (USE_HAL_I2C_REGISTER_CALLBACKS == 1)
-static uint32_t IsI2C1MspCbValid = 0;										
-#endif /* USE_HAL_I2C_REGISTER_CALLBACKS */				
 /**
   * @}
   */
 
-/** @defgroup NUCLEO_F401RE_Private_FunctionPrototypes  Private Function Prototypes
+/** @defgroup STM32F4XX_NUCLEO_BUS_Private_Variables BUS Private Variables
+  * @{
+  */
+
+#if (USE_HAL_I2C_REGISTER_CALLBACKS == 1)
+static uint32_t IsI2C1MspCbValid = 0;										
+#endif /* USE_HAL_I2C_REGISTER_CALLBACKS */				
+
+static uint32_t I2C1InitCounter = 0;
+/**
+  * @}
+  */
+
+/** @defgroup STM32F4XX_NUCLEO_BUS_Private_FunctionPrototypes  BUS Private Function
   * @{
   */  
 
@@ -55,17 +64,19 @@ static void I2C1_MspInit(I2C_HandleTypeDef* hI2c);
 static void I2C1_MspDeInit(I2C_HandleTypeDef* hI2c);
 #if (USE_CUBEMX_BSP_V2 == 1)
 static uint32_t I2C_GetTiming(uint32_t clock_src_hz, uint32_t i2cfreq_hz);
+static void Compute_PRESC_SCLDEL_SDADEL(uint32_t clock_src_freq, uint32_t I2C_Speed);
+static uint32_t Compute_SCLL_SCLH (uint32_t clock_src_freq, uint32_t I2C_speed);
 #endif
 
 /**
   * @}
   */
 
-/** @defgroup NUCLEO_F401RE_LOW_LEVEL_Private_Functions NUCLEO_F401RE LOW LEVEL Private Functions
+/** @defgroup STM32F4XX_NUCLEO_LOW_LEVEL_Private_Functions STM32F4XX_NUCLEO LOW LEVEL Private Functions
   * @{
   */ 
   
-/** @defgroup NUCLEO_F401RE_BUS_Exported_Functions NUCLEO_F401RE_BUS Exported Functions
+/** @defgroup STM32F4XX_NUCLEO_BUS_Exported_Functions STM32F4XX_NUCLEO_BUS Exported Functions
   * @{
   */   
 
@@ -74,8 +85,7 @@ static uint32_t I2C_GetTiming(uint32_t clock_src_hz, uint32_t i2cfreq_hz);
                             BUS OPERATIONS OVER I2C
 *******************************************************************************/
 /**
-  * @brief  Initialize a bus
-  * @param None
+  * @brief  Initialize I2C HAL
   * @retval BSP status
   */
 int32_t BSP_I2C1_Init(void) 
@@ -85,8 +95,10 @@ int32_t BSP_I2C1_Init(void)
   
   hi2c1.Instance  = I2C1;
 
-  if (HAL_I2C_GetState(&hi2c1) == HAL_I2C_STATE_RESET)
-  {  
+  if(I2C1InitCounter++ == 0)
+  {     
+    if (HAL_I2C_GetState(&hi2c1) == HAL_I2C_STATE_RESET)
+    {  
     #if (USE_HAL_I2C_REGISTER_CALLBACKS == 0)
       /* Init the I2C Msp */
       I2C1_MspInit(&hi2c1);
@@ -99,62 +111,68 @@ int32_t BSP_I2C1_Init(void)
         }
       }
     #endif
-
-    /* Init the I2C */
-    if(MX_I2C1_Init(&hi2c1) != HAL_OK)
-    {
-      ret = BSP_ERROR_BUS_FAILURE;
+      if(ret == BSP_ERROR_NONE)
+	  {
+    	/* Init the I2C */
+    	if(MX_I2C1_Init(&hi2c1) != HAL_OK)
+    	{
+      		ret = BSP_ERROR_BUS_FAILURE;
+    	}
+    	else if(HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK) 
+    	{
+      	  ret = BSP_ERROR_BUS_FAILURE;    		
+    	}
+    	else
+    	{
+      		ret = BSP_ERROR_NONE;
+    	}
+	  }	
     }
-    else if(HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK) 
-    {
-      ret = BSP_ERROR_BUS_FAILURE;
-    }
-    else
-    {
-      ret = BSP_ERROR_NONE;
-    }	
   }
-
   return ret;
 }
 
 /**
-  * @brief  DeInitialize a bus
-  * @param None
+  * @brief  DeInitialize I2C HAL.
   * @retval BSP status
   */
 int32_t BSP_I2C1_DeInit(void) 
 {
   int32_t ret = BSP_ERROR_NONE;
   
+  if (I2C1InitCounter > 0)
+  {       
+    if (--I2C1InitCounter == 0)
+    {    
   #if (USE_HAL_I2C_REGISTER_CALLBACKS == 0)
-    /* DeInit the I2C */ 
-    I2C1_MspDeInit(&hi2c1);
+    	/* DeInit the I2C */ 
+    	I2C1_MspDeInit(&hi2c1);
   #endif  
-  /* DeInit the I2C */ 
-  if (HAL_I2C_DeInit(&hi2c1) != HAL_OK) 
-  {
-    ret = BSP_ERROR_BUS_FAILURE;
+  		/* DeInit the I2C */ 
+  		if (HAL_I2C_DeInit(&hi2c1) != HAL_OK) 
+  		{
+    		ret = BSP_ERROR_BUS_FAILURE;
+  		}
+    }
   }
-  
   return ret;
 }
 
 /**
-  * @brief Return the status of the Bus
-  *	@retval bool
+  * @brief  Check whether the I2C bus is ready.
+  * @param DevAddr : I2C device address
+  * @param Trials : Check trials number
+  *	@retval BSP status
   */
 int32_t BSP_I2C1_IsReady(uint16_t DevAddr, uint32_t Trials) 
 {
-  int32_t ret;
+  int32_t ret = BSP_ERROR_NONE;
+  
   if (HAL_I2C_IsDeviceReady(&hi2c1, DevAddr, Trials, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
   {
     ret = BSP_ERROR_BUSY;
   } 
-  else
-  { 
-    ret = BSP_ERROR_NONE; 
-  } 
+  
   return ret;
 }
 
@@ -169,21 +187,13 @@ int32_t BSP_I2C1_IsReady(uint16_t DevAddr, uint32_t Trials)
 
 int32_t BSP_I2C1_WriteReg(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint16_t Length)
 {
-  int32_t ret = BSP_ERROR_BUS_FAILURE;
-  uint32_t hal_error = HAL_OK;
+  int32_t ret = BSP_ERROR_NONE;  
   
-  if (HAL_I2C_Mem_Write(&hi2c1, (uint8_t)DevAddr,
-                       (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT,
-                       (uint8_t *)pData, Length, BUS_I2C1_POLL_TIMEOUT) == HAL_OK)
-  {
-    ret = BSP_ERROR_NONE;
-  }
-  else
-  {
-    hal_error = HAL_I2C_GetError(&hi2c1);
-    if( hal_error == HAL_I2C_ERROR_AF)
+  if (HAL_I2C_Mem_Write(&hi2c1, DevAddr,Reg, I2C_MEMADD_SIZE_8BIT,pData, Length, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
+  {    
+    if (HAL_I2C_GetError(&hi2c1) == HAL_I2C_ERROR_AF)
     {
-      return BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
+      ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
     }
     else
     {
@@ -203,25 +213,17 @@ int32_t BSP_I2C1_WriteReg(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint16
   */
 int32_t  BSP_I2C1_ReadReg(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint16_t Length) 
 {
-  int32_t ret = BSP_ERROR_BUS_FAILURE;
-  uint32_t hal_error = HAL_OK;
+  int32_t ret = BSP_ERROR_NONE;
   
-  if (HAL_I2C_Mem_Read(&hi2c1, DevAddr, (uint16_t)Reg,
-                       I2C_MEMADD_SIZE_8BIT, pData,
-                       Length, 0x1000) == HAL_OK)
-  {
-    ret = BSP_ERROR_NONE;
-  }
-  else
-  {
-    hal_error = HAL_I2C_GetError(&hi2c1);
-    if( hal_error == HAL_I2C_ERROR_AF)
+  if (HAL_I2C_Mem_Read(&hi2c1, DevAddr, Reg, I2C_MEMADD_SIZE_8BIT, pData, Length, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
+  { 
+    if (HAL_I2C_GetError(&hi2c1) == HAL_I2C_ERROR_AF)
     {
-      return BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
+      ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
     }
     else
     {
-      ret =  BSP_ERROR_PERIPH_FAILURE;
+      ret = BSP_ERROR_PERIPH_FAILURE;
     }
   }
   return ret;
@@ -239,21 +241,14 @@ int32_t  BSP_I2C1_ReadReg(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint16
   */
 int32_t BSP_I2C1_WriteReg16(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint16_t Length) 
 {
-  int32_t ret = BSP_ERROR_BUS_FAILURE;
-  uint32_t hal_error = HAL_OK;
+  int32_t ret = BSP_ERROR_NONE;
   
-  if (HAL_I2C_Mem_Write(&hi2c1, (uint8_t)DevAddr,
-                       (uint16_t)Reg, I2C_MEMADD_SIZE_16BIT,
-                       (uint8_t *)pData, Length, 0x1000) == HAL_OK)
+  
+  if (HAL_I2C_Mem_Write(&hi2c1, DevAddr, Reg, I2C_MEMADD_SIZE_16BIT, pData, Length, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
   {
-    ret = BSP_ERROR_NONE;
-  }
-  else
-  {
-    hal_error = HAL_I2C_GetError(&hi2c1);
-    if ( hal_error == HAL_I2C_ERROR_AF)
+    if (HAL_I2C_GetError(&hi2c1) == HAL_I2C_ERROR_AF)    
     {
-      return BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
+      ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
     }
     else
     {
@@ -272,21 +267,62 @@ int32_t BSP_I2C1_WriteReg16(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint
   */
 int32_t  BSP_I2C1_ReadReg16(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint16_t Length) 
 {
-  int32_t ret = BSP_ERROR_BUS_FAILURE;
-  uint32_t hal_error = HAL_OK;
+  int32_t ret = BSP_ERROR_NONE;  
  
-  if (HAL_I2C_Mem_Read(&hi2c1, DevAddr, (uint16_t)Reg,
-                       I2C_MEMADD_SIZE_16BIT, pData,
-                       Length, 0x1000) == HAL_OK)
+  if (HAL_I2C_Mem_Read(&hi2c1, DevAddr, Reg, I2C_MEMADD_SIZE_16BIT, pData, Length, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
   {
-    ret = BSP_ERROR_NONE;
-  }
-  else
-  {
-    hal_error = HAL_I2C_GetError(&hi2c1);
-    if( hal_error == HAL_I2C_ERROR_AF)
+    if (HAL_I2C_GetError(&hi2c1) != HAL_I2C_ERROR_AF)
     {
-      return BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
+      ret =  BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
+    }
+    else
+    {
+      ret =  BSP_ERROR_PERIPH_FAILURE;
+    }
+  }
+  return ret;
+}
+
+/**
+  * @brief  Send an amount width data through bus (Simplex)
+  * @param  DevAddr: Device address on Bus.
+  * @param  pData: Data pointer
+  * @param  Length: Data length
+  * @retval BSP status
+  */
+int32_t BSP_I2C1_Send(uint16_t DevAddr, uint8_t *pData, uint16_t Length) {
+  int32_t ret = BSP_ERROR_NONE;	  
+  
+  if (HAL_I2C_Master_Transmit(&hi2c1, DevAddr, pData, Length, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
+  {
+    if (HAL_I2C_GetError(&hi2c1) != HAL_I2C_ERROR_AF)
+    {
+      ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
+    }
+    else
+    {
+      ret =  BSP_ERROR_PERIPH_FAILURE;
+    }
+  }
+
+  return ret;
+}
+
+/**
+  * @brief  Receive an amount of data through a bus (Simplex)
+  * @param  DevAddr: Device address on Bus.
+  * @param  pData: Data pointer
+  * @param  Length: Data length
+  * @retval BSP status
+  */
+int32_t BSP_I2C1_Recv(uint16_t DevAddr, uint8_t *pData, uint16_t Length) {	
+  int32_t ret = BSP_ERROR_NONE;
+  
+  if (HAL_I2C_Master_Receive(&hi2c1, DevAddr, pData, Length, BUS_I2C1_POLL_TIMEOUT) != HAL_OK)
+  {
+    if (HAL_I2C_GetError(&hi2c1) != HAL_I2C_ERROR_AF)
+    {
+      ret = BSP_ERROR_BUS_ACKNOWLEDGE_FAILURE;
     }
     else
     {

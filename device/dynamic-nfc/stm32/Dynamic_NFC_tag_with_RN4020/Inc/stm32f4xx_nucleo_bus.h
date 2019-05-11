@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file           : nucleo_f401re_bus.h
+  * @file           : stm32f4xx_nucleo_bus.h
   * @brief          : header file for the BSP BUS IO driver
   ******************************************************************************
   * @attention
@@ -17,46 +17,46 @@
 */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef NUCLEO_F401RE_BUS_H
-#define NUCLEO_F401RE_BUS_H
+#ifndef STM32F4XX_NUCLEO_BUS_H
+#define STM32F4XX_NUCLEO_BUS_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "nucleo_f401re_conf.h"
-#include "nucleo_f401re_errno.h"
+#include "stm32f4xx_nucleo_conf.h"
+#include "stm32f4xx_nucleo_errno.h"
 
 /** @addtogroup BSP
   * @{
   */
 
-/** @addtogroup NUCLEO_F401RE
+/** @addtogroup STM32F4XX_NUCLEO
   * @{
   */
 
-/** @defgroup NUCLEO_F401RE_BUS NUCLEO_F401RE BUS
+/** @defgroup STM32F4XX_NUCLEO_BUS STM32F4XX_NUCLEO BUS
   * @{
   */
 
-/** @defgroup NUCLEO_F401RE_BUS_Exported_Constants NUCLEO_F401RE BUS Exported Constants
+/** @defgroup STM32F4XX_NUCLEO_BUS_Exported_Constants STM32F4XX_NUCLEO BUS Exported Constants
   * @{
   */
 
 #ifndef BUS_I2C1_POLL_TIMEOUT
    #define BUS_I2C1_POLL_TIMEOUT                0x1000U   
 #endif
-/*  Frequeny in Hz  */
-#ifndef BUS__FREQUENCY  
-   #define BUS__FREQUENCY  1000000U /* Frequency of I2Cn = 100 KHz*/
+/* I2C1 Frequeny in Hz  */
+#ifndef BUS_I2C1_FREQUENCY  
+   #define BUS_I2C1_FREQUENCY  1000000U /* Frequency of I2Cn = 100 KHz*/
 #endif
 
 /**
   * @}
   */
 
-/** @defgroup NUCLEO_F401RE_BUS_Private_Types NUCLEO_F401RE BUS Private types
+/** @defgroup STM32F4XX_NUCLEO_BUS_Private_Types STM32F4XX_NUCLEO BUS Private types
   * @{
   */
 #if (USE_HAL_I2C_REGISTER_CALLBACKS == 1)
@@ -64,13 +64,13 @@ typedef struct
 {
   pI2C_CallbackTypeDef  pMspInitCb;
   pI2C_CallbackTypeDef  pMspDeInitCb;
-}BSP_I2C1_Cb_t;
+}BSP_I2C_Cb_t;
 #endif /* (USE_HAL_I2C_REGISTER_CALLBACKS == 1) */
 /**
   * @}
   */
   
-/** @defgroup NUCLEO_F401RE_LOW_LEVEL_Exported_Variables LOW LEVEL Exported Constants
+/** @defgroup STM32F4XX_NUCLEO_LOW_LEVEL_Exported_Variables LOW LEVEL Exported Constants
   * @{
   */ 
 extern I2C_HandleTypeDef hi2c1;	
@@ -78,7 +78,7 @@ extern I2C_HandleTypeDef hi2c1;
   * @}
   */
 
-/** @addtogroup NUCLEO_F401RE_BUS_Exported_Functions
+/** @addtogroup STM32F4XX_NUCLEO_BUS_Exported_Functions
   * @{
   */    
 
@@ -99,7 +99,7 @@ int32_t BSP_GetTick(void);
 
 #if (USE_HAL_I2C_REGISTER_CALLBACKS == 1)
 int32_t BSP_I2C1_RegisterDefaultMspCallbacks (void);
-int32_t BSP_I2C1_RegisterMspCallbacks (BSP_I2C1_Cb_t *Callbacks);
+int32_t BSP_I2C1_RegisterMspCallbacks (BSP_I2C_Cb_t *Callbacks);
 #endif /* (USE_HAL_I2C_REGISTER_CALLBACKS == 1) */
 
 /**
@@ -121,6 +121,6 @@ int32_t BSP_I2C1_RegisterMspCallbacks (BSP_I2C1_Cb_t *Callbacks);
 }
 #endif
 
-#endif /* NUCLEO_F401RE_BUS_H */
+#endif /* STM32F4XX_NUCLEO_BUS_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

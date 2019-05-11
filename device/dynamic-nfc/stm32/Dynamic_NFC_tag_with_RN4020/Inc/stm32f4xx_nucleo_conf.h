@@ -1,14 +1,14 @@
 /**
   ******************************************************************************
-  * @file           : nucleo_f401re_conf.h
+  * @file           : stm32f4xx_nucleo_conf.h
   * @brief          : Configuration file
   ******************************************************************************
   ******************************************************************************
 */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef NUCLEO_F401RE_CONF_H
-#define NUCLEO_F401RE_CONF_H
+#ifndef STM32F4XX_NUCLEO_CONF_H
+#define STM32F4XX_NUCLEO_CONF_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -20,15 +20,15 @@
   * @{
   */
   
-/** @addtogroup NUCLEO_F401RE
+/** @addtogroup STM32F4XX_NUCLEO
   * @{
   */
 
-/** @defgroup NUCLEO_F401RE_CONFIG Config
+/** @defgroup STM32F4XX_NUCLEO_CONFIG Config
   * @{
   */ 
   
-/** @defgroup NUCLEO_F401RE_CONFIG_Exported_Constants
+/** @defgroup STM32F4XX_NUCLEO_CONFIG_Exported_Constants
   * @{
   */ 
 /* COM Feature define */
@@ -38,7 +38,7 @@
 #define USE_COM_LOG                         1U
    
 /* IRQ priorities */
-#define BSP_BUTTON_KEY_IT_PRIORITY          15U
+#define BSP_BUTTON_USER_IT_PRIORITY         15U
 
 /* I2C1 Frequeny in Hz  */
 #define BUS_I2C1_FREQUENCY                  100000U /* Frequency of I2C1 = 100 KHz*/
@@ -67,6 +67,6 @@
 #ifdef __cplusplus
 }
 #endif   
-#endif  /* NUCLEO_F401RE_CONF_H */
+#endif  /* STM32F4XX_NUCLEO_CONF_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

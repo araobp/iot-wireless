@@ -71,6 +71,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -91,8 +92,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_NFC_Init();
   MX_USART6_UART_Init();
+  MX_NFC_Init();
   /* USER CODE BEGIN 2 */
   RN4020_Init();
 
