@@ -10,9 +10,6 @@ import math
 import os
 import sys
 
-# MQTT topic to broadcast notifications from BLE peripheral
-TOPIC = "sensor"
-
 def restart():
     time.sleep(10)
     print("Restarting BLE gateway...")
@@ -27,11 +24,11 @@ class EdgeAiDelegate(btle.DefaultDelegate):
     Edge AI delegate to receive notifications from BLE peripheral.
     '''
 
-    def __init__(self, device_name, client, topic):
+    def __init__(self, device_name, client):
         btle.DefaultDelegate.__init__(self)
         self.device_name = device_name
         self.mqtt_client = client
-        self.mqtt_topic = topic
+        self.mqtt_topic = "sensor/{}".format(device_name)
 
     def handleNotification(self, cHandle, data):
         #print('handle: {}'.format(cHandle))
@@ -140,12 +137,12 @@ if __name__ == '__main__':
             client = mqtt.Client("ble-router-interface{}".format(args.device_name))
             client.connect("localhost")
             client.on_message = interface.on_message
-            client.subscribe(args.device_name)
+            client.subscribe(args.device_name+"-rx")
             client.loop_start()  # MQTT client starts anohter thread
 
             # BLE notification callback function registration 
             peripheral.withDelegate(EdgeAiDelegate(args.device_name,
-                                                client, TOPIC))
+                                                client))
 
             # Inifinite loop for waiting notifications from BLE device
             while True:

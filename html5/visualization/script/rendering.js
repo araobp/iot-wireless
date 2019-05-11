@@ -1,6 +1,3 @@
-// MQTT topic
-const TOPIC = 'sensor';
-
 // MQTT message serial number
 let sno = 0;
 
@@ -28,7 +25,6 @@ function onMessageArrived(msg) {
 // Called when connected to MQTT server
 function onConnect() {
   console.log('Connected to MQTT server');
-  mqtt.subscribe(TOPIC);
 }
 
 // Connect to MQTT server
@@ -52,14 +48,18 @@ function onButtonChecked() {
   let current = document.getElementById("current");
   let past = document.getElementById("past");
   if (form.operation.value == "current") {
-    mqtt.subscribe(TOPIC);
+    if (app.device_name) {
+      mqtt.subscribe("sensor/" + app.device_name);
+    }
     current.style.display = "block";
     past.style.display = "none";
     chart.data.datasets[0].data = [];
     chart.data.labels = [];
     chart.update();
   } else if (form.operation.value == "past") {
-    mqtt.unsubscribe(TOPIC);
+    if (app.device_name) {
+      mqtt.unsubscribe("sensor/" + app.device_name);
+    }
     current.style.display = "none";
     past.style.display = "block";
     // Set default datetime

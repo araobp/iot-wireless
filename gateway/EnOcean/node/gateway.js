@@ -5,7 +5,6 @@ const args = require('yargs').argv;
 const mqtt = require('mqtt');
 const MQTT_SERVER = 'mqtt://localhost:1883';
 const client = mqtt.connect(MQTT_SERVER);
-const TOPIC = 'sensor';
 
 // Serial port
 const SerialPort = require('serialport');
@@ -58,18 +57,20 @@ port.on('data', data => {
       }
       if (pos == 11 && porg == SWITCH) {
         // publish
-        msg =  'switch-' + id.join('') + ',' + timestamp() + ',' + it;
+        let deviceName = id.join('')
+        msg =  'switch-' + deviceName + ',' + timestamp() + ',' + it;
         console.log(msg);
         if (connected) {
-          client.publish(TOPIC, msg)
+          client.publish("sensor/" + deviceName, msg)
         }
       }
       if (pos == 13 && porg == TEMP) {
         let temp = math.round((255 - it) * 40 / 255, 1);
-        msg = 'temp-' + id.join('') + ',' + timestamp() + ',' + temp;
+        let deviceName = id.join('')
+        msg = 'temp-' + deviceName + ',' + timestamp() + ',' + temp;
         console.log(msg);
         if (connected) {
-          client.publish(TOPIC, msg)
+          client.publish("sensor/" + deviceName, msg)
         }
       }
     }

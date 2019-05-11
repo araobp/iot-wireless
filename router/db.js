@@ -4,7 +4,7 @@ let sqlite3 = require('sqlite3').verbose();
 // MQTT sensor event subscription
 const mqtt = require('mqtt');
 const MQTT_SERVER = 'mqtt://localhost:1883'
-const TOPIC = 'sensor';
+const TOPIC = 'sensor/#';
 
 let db = null;
 

@@ -39,7 +39,7 @@ function onUrlEntered() {
 
   let msg = new Paho.MQTT.Message(code + ',' + url + '\n');
   //console.log(msg);
-  msg.destinationName = device;
+  msg.destinationName = "{}/rx".format(device);
   mqtt.send(msg);
 
   return false;

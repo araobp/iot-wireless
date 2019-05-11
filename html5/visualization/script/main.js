@@ -53,6 +53,10 @@ let app = new Vue({
       console.log(app.application_name);
 
       initCanvas(app.application_name);
+    },
+    onDeviceSelected(event) {
+      mqtt.unsubscribe("sensor/#");
+      mqtt.subscribe("sensor/" + app.device_name);
     }
   }
 });

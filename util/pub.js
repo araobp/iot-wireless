@@ -1,7 +1,7 @@
 const mqtt = require('mqtt');
 
 const MQTT_SERVER = 'mqtt://localhost:1883'
-const TOPIC = 'sensor'
+const TOPIC = 'sensor/test'
 
 let client = mqtt.connect(MQTT_SERVER);
 let n = 0
