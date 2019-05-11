@@ -4,8 +4,16 @@
 
 RN4020 as a BLE module receives URI write requests from a BLE central (RasPi), and transfer the requests to STM32. STM32 writes the URI to NFC tag via I2C everytime it receives a request.
 
-## URI write request
+Pushing rich user interface to the user's smartphone via NFC tag:
+```
+                                                                          Dynamic NFC tag
+    [RasPi (BLE central)]---BLE--->[RN4020(BLE peripheral)][STM32]---I2C--->[ST25DV04K]---NFC--->[Smart phone]
 
+```
+
+## URI write request to the device (BLE write request)
+
+The device follows the BLE characteristics defined in [this page](https://github.com/araobp/iot-wireless/tree/master/gateway/BLE).
 
 ```
      +-----------------------+
