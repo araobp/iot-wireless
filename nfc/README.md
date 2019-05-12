@@ -11,6 +11,11 @@ Pushing rich user interface to the user's smartphone via NFC tag:
 
 ```
 
+## Hardware
+
+- [X-NUCLEO-NFC04A1](https://www.st.com/en/ecosystems/x-nucleo-nfc04a1.html)
+- [ST25DV04K(Dynamic NFC tag)](https://www.st.com/en/nfc/st25dv04k.html)
+
 ## URI write request to the device (BLE write request)
 
 The device follows the BLE characteristics defined in [this page](https://github.com/araobp/iot-wireless/tree/master/gateway/BLE).
