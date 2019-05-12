@@ -11,10 +11,17 @@ Pushing rich user interface to the user's smartphone via NFC tag:
 
 ```
 
-## Hardware
+## Dynamic NFC tag
+
+MCU can communicate with a smart phone via dynamic NFC tag. The chip supports bi-directional communication.
 
 - [X-NUCLEO-NFC04A1](https://www.st.com/en/ecosystems/x-nucleo-nfc04a1.html)
 - [ST25DV04K(Dynamic NFC tag)](https://www.st.com/en/nfc/st25dv04k.html)
+
+### ST25DV04K
+
+- 256 bytes buffer for fast transfer
+- 4Kbits EEPROM
 
 ## URI write request to the device (BLE write request)
 
