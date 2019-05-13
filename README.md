@@ -14,6 +14,10 @@
 - RasPi has four cores, so it can handle data from mulitple network interfaces in paralell.
 - If its I/O bottleneck matters, connect SSD to it.
 
+## Motivation 3: dynamic NFC tag
+
+- Dynamic NFC tag (RF+I2C) can provide rich user interface to the user of this router.
+
 ## Goal
 
 - Develop a router that bridges between smart phones and IoT/EdgeAI.
@@ -84,7 +88,18 @@ MQTT message format: <command>
 - In this project, I use SQLite, because I want to run everything on RasPi.
 - I use node.js as a web framework to implement RESTful API server.
 
-==> **[RESTful API server with sqlite3](./server)**
+==> **[RESTful API server with sqlite3](./router)**
+
+### Applications on the router
+
+The router provides HTML5-based applications:
+- [Sensor data visualization](./html5/visualization)
+
+### Rich user interface
+
+The router reads/writes NDEF data on NFC tag via BLE and I2C: 
+- [Dynamic NFC tag with BLE and I2C](./nfc)
+- [HTML5 GUI to write NDEF data to dynamic NFC tag via BLE and I2C](./html5/dynamic_nfc)
 
 ## IoT nodes and edge AI devices
 

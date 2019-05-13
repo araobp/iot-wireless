@@ -7,9 +7,9 @@
   <link href="css/css.css" rel="stylesheet" type="text/css">
 
   <!-- Vue.js ,paho-mqtt and Chart.js -->
-  <script src="https://jp.vuejs.org/js/vue.js"></script>
+  <script src="https://jp.vuejs.org/js/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 
 </head>
 
@@ -33,6 +33,12 @@
 
     <!-- Parameters widget -->
     <div class="widget">
+      Application:
+      <select id="applications" v-on:change="onApplicationSelected($event)" v-model="application_name">
+        <option disabled value="">Please select one</option>
+      </select>
+      <br>
+
       Device name: 
       <select id="devices" v-model="device_name">
         <option disabled value="">Please select one</option>
@@ -66,14 +72,9 @@
   </div>
 
   <!-- Local scripts -->
-  <script src="./script/uuid.js"></script>
-  <script src="./script/rest.js"></script>
+  <script src="../script/uuid.js"></script>
+  <script src="../script/rest.js"></script>
   <script src="./script/main.js"></script>
-  <!-- Use case -->
-  <!--<script src="./use_cases/acoustic_scene_classification.js"></script>-->
-  <script src="./use_cases/temperature.js"></script>
-  <!-- Messaging and rendering -->
-  <script src="./script/rendering.js"></script>
 
 </body>
 

@@ -7,9 +7,17 @@ import paho.mqtt.client as mqtt
 import argparse
 import time
 import math
+import os
+import sys
 
 # MQTT topic to broadcast notifications from BLE peripheral
 TOPIC = "sensor"
+
+def restart():
+    time.sleep(10)
+    print("Restarting BLE gateway...")
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 def timestamp():
     return math.floor(time.time()*1000)/1000
@@ -28,9 +36,9 @@ class EdgeAiDelegate(btle.DefaultDelegate):
     def handleNotification(self, cHandle, data):
         #print('handle: {}'.format(cHandle))
         #print(data)
-        inference_result = int.from_bytes(data, 'little', signed=False)
-        print("inference result: {}".format(inference_result))
-        msg = "{},{:.3f},{}".format(self.device_name, timestamp(), inference_result)
+        result = int.from_bytes(data, 'little', signed=False)
+        print("result: {}".format(result))
+        msg = "{},{:.3f},{}".format(self.device_name, timestamp(), result)
         self.mqtt_client.publish(self.mqtt_topic, msg)
 
 class EdgeAiInterface():
@@ -65,8 +73,11 @@ class EdgeAiInterface():
         cmd = message.payload
         print("cmd from mqtt bus: {}".format(cmd))
         # send the command to a BLE peripheral
-        self.write_char.write(cmd, withResponse=False)
-
+        cmd = [cmd[i:i+20] for i in range(0, len(cmd), 20)] 
+        print(cmd)
+        for c in cmd:
+            self.write_char.write(c, withResponse=False)
+            time.sleep(0.5)
 
 if __name__ == '__main__':
 
@@ -138,6 +149,11 @@ if __name__ == '__main__':
 
             # Inifinite loop for waiting notifications from BLE device
             while True:
-                if peripheral.waitForNotifications(1.0):
-                    #print("Notification")
-                    continue
+                try:
+                    if peripheral.waitForNotifications(1.0):
+                        #print("Notification")
+                        continue
+                except: 
+                    restart()
+        else:
+            restart()

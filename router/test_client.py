@@ -8,6 +8,7 @@ headers = {'Content-type': 'application/json'}
 DEVICE = 'pub'
 FROM = 1555799654.957
 TO = 1555799669.976
+APPLICATION = 'life-log'
 
 def _pprint(resp, comment=None):
     print()
@@ -33,6 +34,7 @@ if __name__ == '__main__':
 
     r = _get('/devices')
 
+    '''
     r = _get('/log')
 
     r = _get('/log/'+DEVICE)
@@ -45,5 +47,8 @@ if __name__ == '__main__':
 
     params = {'from': FROM, 'to': -1}
     r = _get('/log/'+DEVICE+'?'+urlencode(params))
+    '''
 	
+    r = _get('/applications')
 
+    r = _get('/applications/' + APPLICATION)

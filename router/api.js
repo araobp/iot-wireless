@@ -48,7 +48,6 @@ app.get('/log', (req, res) => {
 
 app.get('/log/:device', (req, res) => {
   let device = req.params.device;
-  let body = req.body;
   let from = null;
   let to = null;
   if (req.query.from) {
@@ -59,6 +58,16 @@ app.get('/log/:device', (req, res) => {
   }
   console.log(from, to);
   logDB.logDevice(device, from, to, (err, data) => sendResp(res, err, data));
+});
+
+app.get('/applications', (req, res) => {
+  logDB.applications((err, data) => sendResp(res, err, data));
+});
+
+app.get('/applications/:application', (req, res) => {
+  let application = req.params.application;
+  console.log(application);
+  logDB.applicationsApplication(application, (err, data) => sendResp(res, err, data));
 });
 
 app.listen(PORT, () => {

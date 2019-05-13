@@ -1,5 +1,15 @@
 # API server
 
+## SQLite
+
+```
+sqlite> .tables
+applications  log
+sqlite> .schema
+CREATE TABLE log (device text, timestamp real, data text);
+CREATE TABLE applications (application text primary key, devices text, html5 text);
+```
+
 ## REST API spec
 
 #### GET /devices
@@ -46,4 +56,26 @@ temp-04017c00,1555631400.411,26
 temp-04017c00,1555632665.063,26
 temp-04017c00,1555634140.341,26
           :
+```
+
+#### GET /applications
+
+```
+GET /applications
+```
+
+200 OK example
+```
+["room-temperature", "life-log", "wireless-switch", "dynamic-nfc"]
+```
+
+#### GET /applications/{application}
+
+```
+GET /applications/life-log
+```
+
+200 OK example
+```
+{"devices": ["BLE1", "BLE2"], "html5": "life-log/main.html"}
 ```
