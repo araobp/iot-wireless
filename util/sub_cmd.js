@@ -1,7 +1,7 @@
 const mqtt = require('mqtt');
 
 const MQTT_SERVER = 'mqtt://localhost:1883'
-const TOPIC = 'BLE2'
+const TOPIC = 'BLE2/rx'
 
 let client = mqtt.connect(MQTT_SERVER);
 

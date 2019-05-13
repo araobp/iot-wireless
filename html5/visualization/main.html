@@ -40,7 +40,7 @@
       <br>
 
       Device name: 
-      <select id="devices" v-model="device_name">
+      <select id="devices" v-on:change="onDeviceSelected($event)" v-model="device_name">
         <option disabled value="">Please select one</option>
       </select>
       <br>

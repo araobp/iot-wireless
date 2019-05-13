@@ -11,9 +11,38 @@ Pushing rich user interface to the user's smartphone via NFC tag:
 
 ```
 
+Bi-directonal communication with MCU via NFC (WiFi/BLE not involved):
+```
+                         Local event
+                              |
+                              V                                  Dynamic NFC tag
+    [RN4020(BLE peripheral)][STM32]---I2C--->[ST25DV04K]---NFC--->[Smart phone]
+
+    [RN4020(BLE peripheral)][STM32]<--I2C----[ST25DV04K]<--NFC----[Smart phone]
+                              ^                  GPO
+                              |                   |
+                              +-------------------+
+                                   Interrupt
+```
+
+## Dynamic NFC tag
+
+A MCU can communicate with a smart phone via dynamic NFC tag. The chip "ST25DV04K" supports bi-directional communication in a passive way, so it can be thought of a reader/writer powerd by a smartphone via RF. Adopt dynamic NFC tag instead of LCD!
+
+- [X-NUCLEO-NFC04A1](https://www.st.com/en/ecosystems/x-nucleo-nfc04a1.html)
+- [ST25DV04K(Dynamic NFC tag)](https://www.st.com/en/nfc/st25dv04k.html)
+- ["NFC Tap" Android app for ST25](https://www.st.com/content/st_com/en/products/embedded-software/st25-nfc-rfid-software/stsw-st25001.html)
+- [ST25 SDK(jar)](https://my.st.com/content/my_st_com/en/products/embedded-software/st25-nfc-rfid-software/stsw-st25sdk001.html)
+- [ST25 Webapp(html5)](https://smarter.st.com/st25-nfc-web-application/?icmp=tt7281_gl_lnkon_may2018)
+
+### ST25DV04K
+
+- 256 bytes buffer for fast transfer
+- 4Kbits EEPROM
+
 ## URI write request to the device (BLE write request)
 
-The device follows the BLE characteristics defined in [this page](https://github.com/araobp/iot-wireless/tree/master/gateway/BLE).
+The implementation in this device application follows the BLE characteristics defined in [this page](https://github.com/araobp/iot-wireless/tree/master/gateway/BLE).
 
 ```
      +-----------------------+

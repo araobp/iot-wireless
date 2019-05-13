@@ -18,8 +18,6 @@ INT8_T = ord('i')
 INT16_T = ord('l')
 ASCII = ord('a')
 
-TOPIC = "sensor"
-
 ### Argument parser
 DESCRIPTION = '''
 TWELITE module test utility.
@@ -55,7 +53,7 @@ if __name__ == '__main__':
 
                 message = "dst{},{.3f},{}".format(dst, timestamp(), data[0])
 
-                client.publish(TOPIC, message)
+                client.publish("sensor/{}".format(args.dst), message)
 
             except tw.TweliteException as e:
                 print(e)
