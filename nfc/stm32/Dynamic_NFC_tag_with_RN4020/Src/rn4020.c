@@ -129,6 +129,8 @@ void rx(void) {
       }
     }
 
+    response[idx++] = '\n';
+
     tx(response, idx);
     // For debug
     response[idx] = '\0';
