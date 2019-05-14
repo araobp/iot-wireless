@@ -104,6 +104,7 @@ int main(void)
   while (1)
   {
     RN4020_Process();
+
     /* USER CODE END WHILE */
 
   MX_NFC_Process();

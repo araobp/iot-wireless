@@ -10,10 +10,10 @@
 #include <stdint.h>
 #include "usart.h"
 
-#define NOTIFY_COMMAND "SUW,010203040506070809000A0B0C0D0E0F,"
+// TX characteristics (NOTIFY)
+#define NOTIFY_CHARA "SUW,010203040506070809000A0B0C0D0E0F,"
 
 void RN4020_Init(void);
 void RN4020_Process(void);
-void sendData(uint8_t *data, int len);
 
 #endif /* RN4020_H_ */

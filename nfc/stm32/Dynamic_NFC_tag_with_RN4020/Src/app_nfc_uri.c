@@ -5,53 +5,51 @@
  */
 
 #include "app_nfc_uri.h"
-#include "lib_NDEF_URI.h"
 #include <stdbool.h>
+#include <stdio.h>
 
-void uri_modify_request_handler(char *data) {
+/**
+ * Write URI to NFC tag
+ */
+void BLE_URI_write_request(char identifier, char *uri) {
 
-  static char uri[256];
-  static int cnt = 0;
-  static int i = 0;
-  static char type;
+  sURI_Info URI;
 
-  static bool receiving = false;
-
-  static sURI_Info URI;
-
-  if (!receiving) {
-    type = data[0];
-    switch(type) {
-      case '3':
-        strcpy( URI.protocol,URI_ID_0x03_STRING);
-        break;
-      case '4':
-        strcpy( URI.protocol,URI_ID_0x04_STRING);
-        break;
-      default:
-        break;
-    }
-    cnt= 2;
-    receiving = true;
+  switch(identifier) {
+    case '3':
+      strcpy( URI.protocol, URI_ID_0x03_STRING);
+      break;
+    case '4':
+      strcpy( URI.protocol, URI_ID_0x04_STRING);
+      break;
+    default:
+      break;
   }
 
-  while (cnt <= 19 && receiving) {
-    uri[i] = data[cnt];
-    if (uri[i] == '\n') {
-      receiving = false;
-      uri[i] = '\0';
-      i = 0;
-      strcpy( URI.URI_Message, uri);
-      strcpy( URI.Information,"\0" );
+  strcpy(URI.URI_Message, uri);
+  strcpy(URI.Information, "\0" );
 
-      /* Write NDEF to EEPROM */
-      HAL_Delay(5);
-      while( NDEF_WriteURI( &URI ) != NDEF_OK );
-    } else {
-      cnt++;
-      i++;
-    }
-  }
-  cnt = 0;
+  /* Write NDEF to EEPROM */
+  HAL_Delay(5);
+  while( NDEF_WriteURI( &URI ) != NDEF_OK );
 }
 
+/**
+ * Read URI from NFC tag
+ */
+void BLE_URI_read_request(sURI_Info *pURI) {
+
+  //uint8_t buf[NDEF_MAX_SIZE] = { 0 };
+
+  sRecordInfo_t record;
+
+  //record.NDEF_Type = WELL_KNOWN_ABRIDGED_URI_TYPE;
+
+  NDEF_ReadNDEF(NDEF_Buffer);
+  //NDEF_IdentifyNDEF(&record, buf);
+  NDEF_IdentifyNDEF(&record, NDEF_Buffer);
+  NDEF_ReadURI(&record, pURI);
+  //printf("protocol: %s\n", pURI->protocol);
+  //printf("URI_Message: %s\n", pURI->URI_Message);
+  //printf("Information: %s\n", pURI->Information);
+}

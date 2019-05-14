@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/shiny/Documents/GitHub/iot-wireless/device/dynamic-nfc/stm32/Dynamic_NFC_tag_with_RN4020/Inc
+HeaderPath=C:/Users/shiny/Documents/GitHub/iot-wireless/nfc/stm32/Dynamic_NFC_tag_with_RN4020/Inc
 HeaderFiles=gpio.h;dma.h;app_x-cube-nfc4.h;nfc04a1_conf.h;common.h;usart.h;nucleo_f401re_bus.h;nucleo_f401re_errno.h;nucleo_f401re_conf.h;stm32f4xx_it.h;RTE_Components.h;stm32f4xx_hal_conf.h;main.h;stm32f4xx_nucleo_bus.h;stm32f4xx_nucleo_errno.h;stm32f4xx_nucleo_conf.h;
-SourcePath=C:/Users/shiny/Documents/GitHub/iot-wireless/device/dynamic-nfc/stm32/Dynamic_NFC_tag_with_RN4020/Src
+SourcePath=C:/Users/shiny/Documents/GitHub/iot-wireless/nfc/stm32/Dynamic_NFC_tag_with_RN4020/Src
 SourceFiles=gpio.c;dma.c;app_x-cube-nfc4.c;lib_NDEF_config.c;usart.c;nucleo_f401re_bus.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;stm32f4xx_nucleo_bus.c;
 
 [PreviousLibFiles]
