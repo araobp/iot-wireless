@@ -23,16 +23,22 @@
     <!-- Parameters widget -->
     <div class="widget">
       Device name: 
-      <select id="devices" v-model="devices">
+      <select id="devices" v-on:change="onDeviceSelected($event)" v-model="devices">
         <option disabled value="" selected>Please select one</option>
         <option>BLE1</option>
         <option>BLE2</option>
       </select>
+
       <br>
 
-      <form onsubmit="return onUrlEntered()">
+      <form onsubmit="return onWriteRequested()">
         <label>URL: <input type="url" name="url" size=30 v-model="url"></label>
         <input type="submit" value="Write">
+      </form>
+
+      <form onsubmit="return onReadRequested()">
+        <label>URL: <input readonly type="url" name="urlRead" size=30 v-model="urlRead"></label>
+        <input type="submit" value="Read">
       </form>
 
     </div>

@@ -9,6 +9,7 @@ import time
 import math
 import os
 import sys
+import traceback
 
 def restart():
     time.sleep(10)
@@ -29,14 +30,45 @@ class EdgeAiDelegate(btle.DefaultDelegate):
         self.device_name = device_name
         self.mqtt_client = client
         self.mqtt_topic = "sensor/{}".format(device_name)
+        self.mqtt_resp_topic = "{}/tx".format(device_name)
+        self.receiving = False
+        self.buf = ''
 
     def handleNotification(self, cHandle, data):
         #print('handle: {}'.format(cHandle))
         #print(data)
-        result = int.from_bytes(data, 'little', signed=False)
-        print("result: {}".format(result))
-        msg = "{},{:.3f},{}".format(self.device_name, timestamp(), result)
-        self.mqtt_client.publish(self.mqtt_topic, msg)
+        data = data.decode('utf-8')
+        if self.receiving:
+            result = data
+            self.buf = self.buf + result
+            if result[-1] == '\n':
+                print("response: {}".format(self.buf))
+                msg = "{},{:.3f},{}".format(self.device_name, timestamp(), self.buf)
+                self.mqtt_client.publish(self.mqtt_resp_topic, msg)
+                print(self.mqtt_resp_topic, msg)
+                self.buf = ''
+                self.receiving = False
+
+        elif data[0] == 'R':  # Response to read request
+            data = data.split(',')
+            result = data[1]
+            if result[-1] == '\n':
+                print("response: {}".format(result))
+                msg = "{},{:.3f},{}".format(self.device_name, timestamp(), result)
+                self.mqtt_client.publish(self.mqtt_resp_topic, msg)
+                print(self.mqtt_resp_topic, msg)
+            else:
+                self.buf = self.buf + result
+                self.receiving = True
+        elif data[0] == 'W': 
+            data = data.split(',')
+            result = int(data[1])
+            print("result: {}".format(result))
+            msg = "{},{:.3f},{}".format(self.device_name, timestamp(), result)
+            self.mqtt_client.publish(self.mqtt_topic, msg)
+        else:
+            print('unidentified response')
+
 
 class EdgeAiInterface():
     '''
@@ -47,18 +79,19 @@ class EdgeAiInterface():
         self.conn = conn
         self.tx_chara_uuid = tx_chara_uuid
         self.rx_chara_uuid = rx_chara_uuid
-        self.write_char = self.conn.getCharacteristics(uuid=tx_chara_uuid)[0]
+        self.write_char = self.conn.getCharacteristics(uuid=rx_chara_uuid)[0]
 
     def enable_notify(self):
         '''
         Enable notifications on the target characteristic.
         '''
         setup_data = b"\x01\x00"
-        notify = self.conn.getCharacteristics(uuid=self.rx_chara_uuid)[0]
+        notify = self.conn.getCharacteristics(uuid=self.tx_chara_uuid)[0]
         notify_handle = notify.getHandle() + 1
         # In case of RN4020, write fails sometimes. Repeat write three times.
         for i in range(3):
             self.conn.writeCharacteristic(notify_handle, setup_data, withResponse=True)
+            time.sleep(1)
 
     def on_message(self, client, userdata, message):
         '''
@@ -98,6 +131,7 @@ if __name__ == '__main__':
 
         # Search for the device name
         for (adTypeCode, description, valueText) in device.getScanData():
+            print(valueText)
             if valueText == args.device_name:
                 #print(device.addr)
                 print(device.addrType)
@@ -137,7 +171,7 @@ if __name__ == '__main__':
             client = mqtt.Client("ble-router-interface{}".format(args.device_name))
             client.connect("localhost")
             client.on_message = interface.on_message
-            client.subscribe(args.device_name+"-rx")
+            client.subscribe(args.device_name+"/rx")
             client.loop_start()  # MQTT client starts anohter thread
 
             # BLE notification callback function registration 
@@ -151,6 +185,9 @@ if __name__ == '__main__':
                         #print("Notification")
                         continue
                 except: 
+                    traceback.print_exc()
                     restart()
-        else:
-            restart()
+
+    # Device not found
+    restart()
+
