@@ -68,6 +68,20 @@ Example: 3,amazon.co.jp\n
 
 Due to the limitation of BLE payload size (max. 20bytes), the request message is split into multiple data.
 
+TODO: support multiple URIs
+
+## URI read request to the device (BLE write request)
+
+```
+     +-----------------------+
+     |  '0'                  |
+     +-----------------------+
+```
+
+When the beginning character is '0', the request message is regarded as "read URI from the NFC tag".
+
+ 
+TODO: support multiple URIs
 
 ## Collision problem
 

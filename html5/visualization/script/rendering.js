@@ -37,7 +37,7 @@ function connect() {
     timeout: 3,
     onSuccess: onConnect,
   };
-  mqtt.onMessageArrived = onMessageArrived
+  mqtt.onMessageArrived = onMessageArrived;
   mqtt.connect(options);
   console.log('Connecting to MQTT server: ' + host)
 }
