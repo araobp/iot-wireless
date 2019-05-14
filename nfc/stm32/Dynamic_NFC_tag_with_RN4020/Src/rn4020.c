@@ -50,16 +50,17 @@ void tx(uint8_t *data, int len) {
   strcpy(send_buf, NOTIFY_CHARA);
 
   while (true) {
-    sprintf(ascii_hex_buf, "%02x", data[idx++]);
+    sprintf(ascii_hex_buf, "%02x", data[idx]);
     send_buf[37+i*2] = ascii_hex_buf[0];
     send_buf[37+i*2+1] = ascii_hex_buf[1];
     i++;
-    if (i >= 20) {  // The length of 20 bytes
+    idx++;
+    if (i == 20) {  // The length of 20 bytes
       send_buf[37 + i*2] = '\n';
       HAL_UART_Transmit(&huart6, (uint8_t *)send_buf, 37+i*2+1, 0xffff);
       // For debug
       send_buf[37 + i*2] = '\0';
-      printf("sendData: %s\n", send_buf);
+      printf("sendData(@20): %s\n", send_buf);
       // NOTIFY interval
       HAL_Delay(500);
       i = 0;
@@ -68,7 +69,7 @@ void tx(uint8_t *data, int len) {
       HAL_UART_Transmit(&huart6, (uint8_t *)send_buf, 37+i*2+1, 0xffff);
       // For debug
       send_buf[37 + i*2] = '\0';
-      printf("sendData: %s\n", send_buf);
+      printf("sendData(@len): %s\n", send_buf);
       break;
     }
   }
