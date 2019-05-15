@@ -196,3 +196,6 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+server.err
+server.crt
