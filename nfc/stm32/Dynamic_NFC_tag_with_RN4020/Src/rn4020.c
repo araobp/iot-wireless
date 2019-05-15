@@ -78,7 +78,7 @@ void tx(uint8_t *data, int len) {
 /**
  * Receive byte array from a BLE central via RN4020 module.
  *
- * Note: RN4020 send binary data to this MCU in ASCII mode.
+ * Note: RN4020 sends binary data to this MCU in ASCII mode.
  *
  */
 void rx(void) {
@@ -190,6 +190,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
   static int idx = 0;
   static uint8_t uart_rx_buf[BUFSIZE];
   char ascii_hex_buf[3];
+  uint8_t RESTART[4] = {'R', ',', '1', '\n'};
+
   if (!command_received) {
     if (uart_rx_data == '\n') {
       uart_rx_buf[idx] = '\0';
@@ -206,6 +208,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
         }
         data_len = data_len/2;
         command_received = true;
+
+      } else if (strcmp((char *)uart_rx_buf, "Connection End\r") == 0) {
+        // Restart the BLE module
+        idx = 0;
+        command_received = false;
+        HAL_UART_Transmit(&huart6, RESTART, sizeof(RESTART), 0xffff);
+        printf("Connection lost\n");
+        printf("Restarting the BLE module...\n");
       }
       idx = 0;
     } else {

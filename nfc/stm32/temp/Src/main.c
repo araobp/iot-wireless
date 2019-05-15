@@ -26,10 +26,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "rn4020.h"
-#include <stdio.h>
-#include "nfc04a1.h"
-#include "nfc04a1_nfctag.h"
 
 /* USER CODE END Includes */
 
@@ -72,9 +68,6 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  uint8_t GPOConfig;
-  ST25DV_EN_STATUS GPO_en;
-  uint8_t ITStatus;
 
   /* USER CODE END 1 */
   
@@ -101,17 +94,6 @@ int main(void)
   MX_USART6_UART_Init();
   MX_NFC_Init();
   /* USER CODE BEGIN 2 */
-  RN4020_Init();
-  NFC04A1_GPO_Init();
-  RN4020_Process();
-  printf("GPO: %ld\n", NFC04A1_GPO_ReadPin());
-
-  NFC04A1_NFCTAG_ReadGPO_Dyn(0, &GPOConfig );
-  printf("GPO Config: %0x\n", GPOConfig);
-
-  NFC04A1_NFCTAG_GetGPO_en_Dyn(0, &GPO_en );
-  printf("GPO Config En: %0x\n", GPO_en);
-
 
   /* USER CODE END 2 */
 
@@ -119,10 +101,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    NFC04A1_NFCTAG_ReadITSTStatus_Dyn(0, &ITStatus);
-    printf("GPO IT Status: %0x\n", ITStatus);
-
-    HAL_Delay(1000);
     /* USER CODE END WHILE */
 
   MX_NFC_Process();
@@ -175,17 +153,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void BSP_GPO_Callback() {
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-  printf("Field change\n");
-}
-
-int _write(int file, char *ptr, int len) {
-  HAL_UART_Transmit(&huart2, (uint8_t *) ptr, (uint16_t) len, 0xFFFFFFFF);
-  return len;
-}
-
 
 /* USER CODE END 4 */
 

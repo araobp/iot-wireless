@@ -42,7 +42,9 @@ A MCU can communicate with a smart phone via dynamic NFC tag. The chip "ST25DV04
 
 ## URI write request to the device (BLE write request)
 
-The implementation in this device application follows the BLE characteristics defined in [this page](https://github.com/araobp/iot-wireless/tree/master/gateway/BLE).
+The BLE characteristics defined in [this page](https://github.com/araobp/iot-wireless/tree/master/gateway/BLE) is used in this project.
+
+URI write request message format (proprietary):
 
 ```
      +-----------------------+
@@ -68,7 +70,20 @@ Example: 3,amazon.co.jp\n
 
 Due to the limitation of BLE payload size (max. 20bytes), the request message is split into multiple data.
 
-TODO: support multiple URIs
+Response to URI write request:
+```
+     +-----------------------+
+     |  'W'                  |
+     +-----------------------+
+     |  ','                  |
+     +-----------------------+
+     | Count (in ASCII)      | The number of requests that have been received by the device so far.
+     +-----------------------+
+     |  '\n'                 |
+     +-----------------------+
+
+```
+
 
 ## URI read request to the device (BLE write request)
 
@@ -80,8 +95,27 @@ TODO: support multiple URIs
 
 When the beginning character is '0', the request message is regarded as "read URI from the NFC tag".
 
- 
-TODO: support multiple URIs
+Response to URI write request:
+```
+     +-----------------------+
+     |  'R'                  |
+     +-----------------------+
+     |  ','                  |
+     +-----------------------+
+     |  URI field[0]         |
+     +-----------------------+
+     |  URI field[1]         |
+     +-----------------------+
+     |       :               |
+     +-----------------------+
+     |  URI field[n]         |
+     +-----------------------+
+     |  '\n'                 |
+     +-----------------------+
+
+```
+
+Due to the limitation of BLE payload size (max. 20bytes), the response message is split into multiple data.
 
 ## Collision problem
 
