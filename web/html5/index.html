@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://jp.vuejs.org/js/vue.js"></script>
   </head>
   <body>
-    <p>This is a sample page.</p>
-    <div id="app">
-      IP address of web server: {{host}}
-    </div>
-    <br>
-    <script>
-      const host = window.location.hostname;
-      var app = new Vue({
-        el: '#app',
-        data: {
-          host: '' 
-        }
-      });
-      app.host = host; 
-      
-    </script>
+    <H1>Web applications enabled by Web NFC</h1>
+    
     <ul>
-      <li>a
-      <li>b
-      <li>c
+      <li><a href="./nfc_sample/main.html">People counter</a>
     </ul>
   </body>
 </html>

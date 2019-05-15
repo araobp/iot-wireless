@@ -198,4 +198,4 @@ lint/tmp/
 # lint/reports/
 
 server.err
-server.crt
+server.key
