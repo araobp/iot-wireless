@@ -140,6 +140,11 @@ FIELD_CHANGE events (turn into interrupts on EXTI on STM32).
 
 ```
 
+The following line must be included somewhere in the code to receive interrupts from PA6:
+```
+NFC04A1_GPO_Init();
+```
+
 ## Collision problem
 
 I was going to use USART1 for RN4020, but USART1's RX (PA10) is already used by X-CUBE-NFC4/X-NUCLEO-NFC05A1 for YELLOW LED.
