@@ -117,6 +117,29 @@ Response to URI write request:
 
 Due to the limitation of BLE payload size (max. 20bytes), the response message is split into multiple data.
 
+## Web NFC
+
+Results from my experiments so far:
+- I have confirmed that Web NFC on Chrome/Android can read NDEF message from ST25 or write NDEF message to ST25. However, to enable NFC on Chrome, you need to access chrome://flags.
+- Safari on iPhone does not support Web NFC.
+
+Conclusion:
+- I do not use Web NFC, since iPhone does not support it.
+- Both Android and iPhone read NFC tag in a background process and lauch a browser automatically. I focus on this way to remote-control a browser on a smartphone. Use GPO supported by ST25 to detect if the user is close to the tag.
+
+## GPO (General Purpose Output) supported by ST25
+
+I use GPO to detect RF activities such as FIELD_CHANGE in this project.
+
+FIELD_CHANGE events (turn into interrupts on EXTI on STM32).
+```
+
+         +--+                               +--+           HIGH
+         |  |                               |  |
+   ------+  +-------------------------------+  +---------- LOW
+
+```
+
 ## Collision problem
 
 I was going to use USART1 for RN4020, but USART1's RX (PA10) is already used by X-CUBE-NFC4/X-NUCLEO-NFC05A1 for YELLOW LED.
