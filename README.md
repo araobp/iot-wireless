@@ -116,7 +116,7 @@ The router reads/writes NDEF data on NFC tag via BLE and I2C:
 ### BLE
 
 - [Low-end edge AI for acoustic scene classification](https://github.com/araobp/acoustic-features)
-- [Dynamic NFC tag with RN4020(BLE module)](./device/dynamic-nfc/stm32/Dynamic_NFC_tag_with_RN4020)
+- [Dynamic NFC tag with RN4020(BLE module)](./nfc)
 
 ### EnOcean
 
